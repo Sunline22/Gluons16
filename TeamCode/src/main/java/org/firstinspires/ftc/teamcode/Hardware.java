@@ -24,10 +24,10 @@ public class Hardware {
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
 
-        frontLeftMotor   = hwMap.dcMotor.get("frontLeftDrive");
-        frontRightMotor   = hwMap.dcMotor.get("frontRightDrive");
-        backLeftMotor   = hwMap.dcMotor.get("backLeftDrive");
-        backRightMotor   = hwMap.dcMotor.get("backRightDrive");
+        frontLeftMotor   = hwMap.dcMotor.get("frontLeftMotor");
+        frontRightMotor   = hwMap.dcMotor.get("frontRightMotor");
+        backLeftMotor   = hwMap.dcMotor.get("backLeftMotor");
+        backRightMotor   = hwMap.dcMotor.get("backRightMotor");
         frontLeftMotor.setDirection(DcMotor.Direction.FORWARD);
         frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
         backLeftMotor.setDirection(DcMotor.Direction.FORWARD);
