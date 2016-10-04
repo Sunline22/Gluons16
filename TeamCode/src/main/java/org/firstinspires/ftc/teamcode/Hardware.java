@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class Hardware {
@@ -9,7 +10,7 @@ public class Hardware {
     public DcMotor  frontRightMotor  = null;
     public DcMotor  backLeftMotor    = null;
     public DcMotor backRightMotor   = null;
-
+    public Servo spinner = null;
     //public static final double driveForwardPower    =  0.45 ;
     //public static final double driveBackwardPower  = -0.45 ;
 
@@ -41,7 +42,8 @@ public class Hardware {
         frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
+        spinner = hwMap.servo.get("spinner");
+        spinner.setPosition(0);
     }
 
     public void waitForTick(long periodMs) throws InterruptedException {
