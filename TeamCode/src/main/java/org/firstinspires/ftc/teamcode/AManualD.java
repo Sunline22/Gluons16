@@ -25,7 +25,7 @@ public class AManualD extends LinearOpMode
             }
         }
 
-    public void drive()
+    private void drive()
     {
 
         double left   =  -gamepad1.left_stick_y;
