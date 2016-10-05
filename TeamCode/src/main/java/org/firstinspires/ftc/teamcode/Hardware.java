@@ -17,8 +17,7 @@ public class Hardware {
     //public static final double driveBackwardPower  = -0.45 ;
 
     HardwareMap hwMap           =  null;
-
-    private ElapsedTime period  = new ElapsedTime();
+    private ElapsedTime period  =  new ElapsedTime();
 
     public Hardware(){
 
@@ -27,10 +26,11 @@ public class Hardware {
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
 
-        frontLeftMotor   = hwMap.dcMotor.get("frontLeftMotor");
-        frontRightMotor   = hwMap.dcMotor.get("frontRightMotor");
-        backLeftMotor   = hwMap.dcMotor.get("backLeftMotor");
-        backRightMotor   = hwMap.dcMotor.get("backRightMotor");
+        frontLeftMotor   =  hwMap.dcMotor.get("frontLeftMotor");
+        frontRightMotor  =  hwMap.dcMotor.get("frontRightMotor");
+        backLeftMotor    =  hwMap.dcMotor.get("backLeftMotor");
+        backRightMotor   =  hwMap.dcMotor.get("backRightMotor");
+
         frontLeftMotor.setDirection(DcMotor.Direction.FORWARD);
         frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
         backLeftMotor.setDirection(DcMotor.Direction.FORWARD);
