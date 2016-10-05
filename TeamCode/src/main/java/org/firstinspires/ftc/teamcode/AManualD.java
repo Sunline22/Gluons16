@@ -33,7 +33,7 @@ public class AManualD extends LinearOpMode {
                 robot.frontRightMotor.setPower(.99);
                 robot.backRightMotor.setPower(.99);
             }
-            if(gamepad1.dpad_down) {
+            else if(gamepad1.dpad_down) {
                 telemetry.addData("Say","Backward");
                 robot.frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
                 robot.backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -43,6 +43,12 @@ public class AManualD extends LinearOpMode {
                 robot.backLeftMotor.setPower(.99);
                 robot.frontRightMotor.setPower(.99);
                 robot.backRightMotor.setPower(.99);
+            }
+            else{
+                robot.frontLeftMotor.setPower(0);
+                robot.backLeftMotor.setPower(0);
+                robot.frontRightMotor.setPower(0);
+                robot.backRightMotor.setPower(0);
             }
             robot.waitForTick(40);
         }
