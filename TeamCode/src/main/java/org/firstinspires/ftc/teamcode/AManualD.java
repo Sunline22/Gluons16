@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class AManualD extends LinearOpMode
 {
     Hardware robot = new Hardware();
-
+    private boolean spinToggle = false;
     public void runOpMode()throws InterruptedException{
 
         robot.init(hardwareMap);
@@ -80,7 +80,9 @@ public class AManualD extends LinearOpMode
             robot.frontRightMotor.setPower(0);
             robot.backRightMotor.setPower(0);
         }
-        if(gamepad2.y){
+        if(gamepad2.y)
+            spinToggle=!spinToggle;
+        if(spinToggle){
             spinPos+=.1d;
             if(spinPos>1.0d)
                 spinPos-=1.0d;
