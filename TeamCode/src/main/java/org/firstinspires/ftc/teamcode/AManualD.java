@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name="Linear Dirver TeleOp",group="TeleOp")
 
-//activate the booty
+//test the booty
 
 public class AManualD extends LinearOpMode
 {
