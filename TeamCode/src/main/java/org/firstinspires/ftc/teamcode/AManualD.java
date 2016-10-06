@@ -89,7 +89,7 @@ public class AManualD extends LinearOpMode
         //}
         //if(servoTog){
             //spinPos+=.1d;
-            //if(spinPos>1.0d)
+            //if(spinPos>=1.0d)
                 //spinPos-=1.0d;
             //spinPos=Math.round(spinPos*10.0d)/10.0d;
             //robot.spinner.setPosition(spinPos);
