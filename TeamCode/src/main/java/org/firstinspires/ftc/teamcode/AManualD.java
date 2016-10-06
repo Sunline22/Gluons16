@@ -34,7 +34,7 @@ public class AManualD extends LinearOpMode
         double left   =  -gamepad1.left_stick_y;
         double right  =  -gamepad1.right_stick_y;
         double max    =  Math.max(Math.abs(left),Math.abs(right));
-        double spinPos = robot.spinner.getPosition();
+        //double spinPos = robot.spinner.getPosition();
         if(max>1.0)
         {
             left/=max;
