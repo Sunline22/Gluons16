@@ -45,8 +45,9 @@ public class Hardware {
         frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        //spinner = hwMap.servo.get("spinner");
-        //spinner.setPosition(0);
+        spinner = hwMap.servo.get("spinner");
+        spinner.setPosition(0);
+        spinner.setDirection(Servo.Direction.FORWARD);
     }
 
     public void waitForTick(long periodMs) throws InterruptedException {

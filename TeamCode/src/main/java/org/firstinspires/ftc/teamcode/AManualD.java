@@ -17,7 +17,6 @@ public class AManualD extends LinearOpMode
         telemetry.addData("Say", "Good morning");
         telemetry.update();
         waitForStart();
-        robot.spinner.setDirection(Servo.Direction.FORWARD);
         while(opModeIsActive())
         {
             drive();
@@ -32,7 +31,7 @@ public class AManualD extends LinearOpMode
         double left   =  -gamepad1.left_stick_y;
         double right  =  -gamepad1.right_stick_y;
         double max    =  Math.max(Math.abs(left),Math.abs(right));
-
+        double spinPos = robot.spinner.getPosition();
         if(max>1.0)
         {
             left/=max;
@@ -81,8 +80,12 @@ public class AManualD extends LinearOpMode
             robot.frontRightMotor.setPower(0);
             robot.backRightMotor.setPower(0);
         }
-
-        if(gamepad2.y)
-            robot.spinner.setPosition(1);
+        if(gamepad2.y){
+            spinPos+=.1d;
+            if(spinPos>1.0d)
+                spinPos-=1.0d;
+            spinPos=Math.round(spinPos*10.0d)/10.0d;
+            robot.spinner.setPosition(spinPos);
+        }
     }
 }
