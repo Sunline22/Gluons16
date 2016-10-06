@@ -11,7 +11,8 @@ public class Hardware {
     public DcMotor  backLeftMotor    = null;
     public DcMotor backRightMotor   = null;
 
-    //public Servo spinner = null;
+    public Servo spinner = null;
+
     //public static final double driveForwardPower    =  0.45 ;
     //public static final double driveBackwardPower  = -0.45 ;
 

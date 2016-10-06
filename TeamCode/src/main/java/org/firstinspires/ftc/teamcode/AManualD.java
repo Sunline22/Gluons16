@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name="Linear Dirver TeleOp",group="TeleOp")
 
@@ -16,14 +17,14 @@ public class AManualD extends LinearOpMode
         telemetry.addData("Say", "Good morning");
         telemetry.update();
         waitForStart();
+        robot.spinner.setDirection(Servo.Direction.FORWARD);
+        while(opModeIsActive())
+        {
+            drive();
 
-            while(opModeIsActive())
-            {
-                drive();
-
-                robot.waitForTick(40);
-            }
+            robot.waitForTick(40);
         }
+    }
 
     private void drive()
     {
@@ -80,5 +81,8 @@ public class AManualD extends LinearOpMode
             robot.frontRightMotor.setPower(0);
             robot.backRightMotor.setPower(0);
         }
+
+        if(gamepad2.y)
+            robot.spinner.setPosition(1);
     }
 }
