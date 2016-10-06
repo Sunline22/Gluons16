@@ -10,7 +10,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class AManualD extends LinearOpMode
 {
     Hardware robot = new Hardware();
-    private boolean spinToggle = false;
+    private int count = 0;
+    private boolean servoTog = false;
     public void runOpMode()throws InterruptedException{
 
         robot.init(hardwareMap);
@@ -80,14 +81,17 @@ public class AManualD extends LinearOpMode
             robot.frontRightMotor.setPower(0);
             robot.backRightMotor.setPower(0);
         }
-        if(gamepad2.y)
-            spinToggle=!spinToggle;
-        if(spinToggle){
+        if(gamepad2.y && count == 0) {
+            count += 40;
+            servoTog=!servoTog;
+        }
+        if(servoTog){
             spinPos+=.1d;
             if(spinPos>1.0d)
                 spinPos-=1.0d;
             spinPos=Math.round(spinPos*10.0d)/10.0d;
             robot.spinner.setPosition(spinPos);
+            count--;
         }
     }
 }
