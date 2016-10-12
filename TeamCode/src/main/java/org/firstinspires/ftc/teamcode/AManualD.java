@@ -34,9 +34,14 @@ public class AManualD extends LinearOpMode
 
         double leftStickVert   =  gamepad1.left_stick_y;
         double rightStickVert  =  gamepad1.right_stick_y;
+
         leftStickVert = Range.clip(leftStickVert,-1.0,1.0);
         rightStickVert = Range.clip(rightStickVert,-1.0,1.0);
-        //joyDir(leftStickVert, rightStickVert);
+
+        joyDir(leftStickVert, rightStickVert);
+
+        leftStickVert=Math.abs(leftStickVert);
+        rightStickVert=Math.abs(rightStickVert);
 
         robot.frontLeftMotor.setPower(leftStickVert);
         robot.backLeftMotor.setPower(leftStickVert);
