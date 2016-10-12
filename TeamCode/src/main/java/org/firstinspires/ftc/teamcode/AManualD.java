@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name="Linear Dirver TeleOp",group="TeleOp")
 
@@ -31,23 +32,18 @@ public class AManualD extends LinearOpMode
     private void drive()
     {
 
-        double left   =  gamepad1.left_stick_y;
-        double right  =  gamepad1.right_stick_y;
-        /**double max    =  Math.max(Math.abs(left),Math.abs(right));
-        //double spinPos = robot.spinner.getPosition();
-        if(max>1.0 || max<-1.0)
-        {
-            left/=max;
-            right/=max;
-        }
-         */
-        joyDir(left, right);
-        robot.frontLeftMotor.setPower(left);
-        robot.backLeftMotor.setPower(left);
-        robot.frontRightMotor.setPower(right);
-        robot.backRightMotor.setPower(right);
+        double leftStickVert   =  gamepad1.left_stick_y;
+        double rightStickVert  =  gamepad1.right_stick_y;
+        leftStickVert = Range.clip(leftStickVert,-1.0,1.0);
+        rightStickVert = Range.clip(rightStickVert,-1.0,1.0);
+        //joyDir(leftStickVert, rightStickVert);
 
-        if(left==0 && right==0) {
+        robot.frontLeftMotor.setPower(leftStickVert);
+        robot.backLeftMotor.setPower(leftStickVert);
+        robot.frontRightMotor.setPower(rightStickVert);
+        robot.backRightMotor.setPower(rightStickVert);
+
+        if(leftStickVert==0 && rightStickVert==0) {
             if (gamepad1.dpad_up) {
                 telemetry.addData("Say", "Forward");
                 telemetry.update();
@@ -94,20 +90,20 @@ public class AManualD extends LinearOpMode
             //count--;
         //}
     }
-    private void joyDir(double left, double right){
-        if(left>0){
+    private void joyDir(double leftStickVert, double rightStickVert){
+        if(leftStickVert>0){
             robot.frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
             robot.backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         }
-        else if(left<0){
+        else if(leftStickVert<0){
             robot.frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
             robot.backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         }
-        if(right>0){
+        if(rightStickVert>0){
             robot.frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
             robot.backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         }
-        else if(right<0) {
+        else if(rightStickVert<0) {
             robot.frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
             robot.backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         }
