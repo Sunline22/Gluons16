@@ -10,11 +10,12 @@ import com.qualcomm.robotcore.util.Range;
 
 //test the booty
 
-public class AManualD extends LinearOpMode
-{
+public class AManualD extends LinearOpMode{
+
     Hardware robot = new Hardware();
     //private int count = 0;
     //private boolean servoTog = false;
+
     public void runOpMode()throws InterruptedException{
 
         robot.init(hardwareMap);
