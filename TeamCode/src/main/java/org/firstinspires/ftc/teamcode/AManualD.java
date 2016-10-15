@@ -13,14 +13,9 @@ import com.qualcomm.robotcore.util.Range;
 public class AManualD extends LinearOpMode{
 
     Hardware robot = new Hardware();
-<<<<<<< HEAD
+
     private int count = 0;
     private boolean servoTog = false;
-    double spinPos=0;
-=======
-    //private int count = 0;
-    //private boolean servoTog = false;
->>>>>>> bac15e25ac59fec614ac4357790597cc8199d4ef
 
     public void runOpMode()throws InterruptedException{
 
@@ -38,7 +33,7 @@ public class AManualD extends LinearOpMode{
     private void drive(){
         double leftStickVert   =  gamepad1.left_stick_y;
         double rightStickVert  =  gamepad1.right_stick_y;
-        //double spinPos = robot.spinner.getPsotition();
+        double spinPos = robot.spinner.getPosition();
 
         leftStickVert = Range.clip(leftStickVert,-1.0,1.0);
         rightStickVert = Range.clip(rightStickVert,-1.0,1.0);
@@ -53,43 +48,6 @@ public class AManualD extends LinearOpMode{
 
         motorPow(leftStickVert, rightStickVert);
 
-<<<<<<< HEAD
-        if(leftStickVert==0 && rightStickVert==0) {
-
-            if (gamepad1.dpad_up) {
-                telemetry.addData("Say", "Forward");
-                telemetry.update();
-
-                robot.frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-                robot.backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-                robot.frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-                robot.backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-
-                robot.frontLeftMotor.setPower(.99);
-                robot.backLeftMotor.setPower(.99);
-                robot.frontRightMotor.setPower(.99);
-                robot.backRightMotor.setPower(.99);
-
-            } else if (gamepad1.dpad_down) {
-                telemetry.addData("Say", "Backward");
-                telemetry.update();
-
-                robot.frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-                robot.backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-                robot.frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-                robot.backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-
-                robot.frontLeftMotor.setPower(.99);
-                robot.backLeftMotor.setPower(.99);
-                robot.frontRightMotor.setPower(.99);
-                robot.backRightMotor.setPower(.99);
-            } else {
-                robot.frontLeftMotor.setPower(0);
-                robot.backLeftMotor.setPower(0);
-                robot.frontRightMotor.setPower(0);
-                robot.backRightMotor.setPower(0);
-            }
-        }
         if(gamepad2.y && count == 0) {
             count += 40;
             servoTog=!servoTog;
@@ -102,20 +60,10 @@ public class AManualD extends LinearOpMode{
             robot.spinner.setPosition(spinPos);
             count--;
         }
-=======
         if(leftStickVert==0 && rightStickVert==0){
             dPad();
         }
 
-        //if(gamepad2.y && count == 0){
-            //count += 40;
-            //servoTog=!servoTog;
-        //}
-        //if(servoTog){
-            //spin(spinPos);
-            //count--;
-        //}
->>>>>>> bac15e25ac59fec614ac4357790597cc8199d4ef
     }
 
     private String joyDir(double leftStickVert, double rightStickVert){
