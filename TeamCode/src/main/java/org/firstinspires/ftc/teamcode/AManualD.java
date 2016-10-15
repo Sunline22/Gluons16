@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name="Linear Dirver TeleOp",group="TeleOp")
 
-//modify the booty
+//test the booty
 
 public class AManualD extends LinearOpMode{
 
