@@ -14,6 +14,7 @@ public class Hardware {
     public DcMotor cannonMotor   = null;
 
     public Servo spinner = null;
+    public Servo lift = null;
 
     //public static final double driveForwardPower    =  0.45 ;
     //public static final double driveBackwardPower  = -0.45 ;
@@ -53,6 +54,10 @@ public class Hardware {
         spinner = hwMap.servo.get("spinner");
         spinner.setPosition(0);
         spinner.setDirection(Servo.Direction.FORWARD);
+
+        lift = hwMap.servo.get("lift");
+        lift.setPosition(0);
+        lift.setDirection(Servo.Direction.FORWARD);
     }
 
     public void waitForTick(long periodMs) throws InterruptedException {
