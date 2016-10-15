@@ -11,7 +11,7 @@ public class Hardware {
     public DcMotor  frontRightMotor  = null;
     public DcMotor  backLeftMotor    = null;
     public DcMotor backRightMotor   = null;
-    public DcMotor widowMaker   = null;
+    public DcMotor cannonMotor   = null;
 
     public Servo spinner = null;
 
@@ -36,19 +36,19 @@ public class Hardware {
         frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
         backLeftMotor.setDirection(DcMotor.Direction.FORWARD);
         backRightMotor.setDirection(DcMotor.Direction.FORWARD);
-        widowMaker.setDirection(DcMotor.Direction.REVERSE);
+        cannonMotor.setDirection(DcMotor.Direction.REVERSE);
 
         frontLeftMotor.setPower(0);
         frontRightMotor.setPower(0);
         backLeftMotor.setPower(0);
         backRightMotor.setPower(0);
-        widowMaker.setPower(0);
+        cannonMotor.setPower(0);
 
         frontLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        widowMaker.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        cannonMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         spinner = hwMap.servo.get("spinner");
         spinner.setPosition(0);

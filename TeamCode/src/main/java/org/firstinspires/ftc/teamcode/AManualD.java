@@ -24,7 +24,7 @@ public class AManualD extends LinearOpMode{
         waitForStart();
         while(opModeIsActive()){
             drive();
-
+            spin();
             robot.waitForTick(40);
         }
     }
@@ -32,7 +32,6 @@ public class AManualD extends LinearOpMode{
     private void drive(){
         double leftStickVert   =  gamepad1.left_stick_y;
         double rightStickVert  =  gamepad1.right_stick_y;
-        double spinPos = robot.spinner.getPosition();
 
         leftStickVert = Range.clip(leftStickVert,-1.0,1.0);
         rightStickVert = Range.clip(rightStickVert,-1.0,1.0);
@@ -46,19 +45,6 @@ public class AManualD extends LinearOpMode{
         rightStickVert=Math.abs(rightStickVert);
 
         motorPow(leftStickVert, rightStickVert);
-
-        if(gamepad2.y && count == 0) {
-            count += 40;
-            servoTog=!servoTog;
-        }
-        if(servoTog) {
-            spinPos += .1d;
-            if (spinPos >= 1.0d)
-                spinPos -= 1.0d;
-            spinPos = Math.round(spinPos * 10.0d) / 10.0d;
-            robot.spinner.setPosition(spinPos);
-            count--;
-        }
 
         if(leftStickVert==0 && rightStickVert==0){
             dPad();
@@ -133,11 +119,19 @@ public class AManualD extends LinearOpMode{
 
     }
 
-    /**private void spin(double spinPos){
-        spinPos+=.1d;
-        if(spinPos>=1.0d)
-            spinPos-=1.0d;
-        spinPos=Math.round(spinPos*10.0d)/10.0d;
-        robot.spinner.setPosition(spinPos);
-    }*/
+    private void spin(){
+        double spinPos = robot.spinner.getPosition();
+        if(gamepad2.y && count == 0) {
+            count += 40;
+            servoTog=!servoTog;
+        }
+        if(servoTog) {
+            spinPos+=.1d;
+            if(spinPos>=1.0d)
+                spinPos-=1.0d;
+            spinPos=Math.round(spinPos*10.0d)/10.0d;
+            robot.spinner.setPosition(spinPos);
+            count--;
+        }
+    }
 }
