@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -10,8 +11,9 @@ public class Hardware {
     public DcMotor  frontRightMotor  = null;
     public DcMotor  backLeftMotor    = null;
     public DcMotor backRightMotor   = null;
+    public DcMotor widowMaker   = null;
 
-    //public Servo spinner = null;
+    public Servo spinner = null;
 
     //public static final double driveForwardPower    =  0.45 ;
     //public static final double driveBackwardPower  = -0.45 ;
@@ -19,9 +21,7 @@ public class Hardware {
     HardwareMap hwMap           =  null;
     private ElapsedTime period  =  new ElapsedTime();
 
-    public Hardware(){
-
-    }
+    public Hardware(){}
 
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
@@ -30,24 +30,29 @@ public class Hardware {
         frontRightMotor  =  hwMap.dcMotor.get("frontRightMotor");
         backLeftMotor    =  hwMap.dcMotor.get("backLeftMotor");
         backRightMotor   =  hwMap.dcMotor.get("backRightMotor");
+        backRightMotor   =  hwMap.dcMotor.get("backRightMotor");
 
         frontLeftMotor.setDirection(DcMotor.Direction.FORWARD);
         frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
         backLeftMotor.setDirection(DcMotor.Direction.FORWARD);
         backRightMotor.setDirection(DcMotor.Direction.FORWARD);
+        widowMaker.setDirection(DcMotor.Direction.REVERSE);
 
         frontLeftMotor.setPower(0);
         frontRightMotor.setPower(0);
         backLeftMotor.setPower(0);
         backRightMotor.setPower(0);
+        widowMaker.setPower(0);
 
         frontLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        //spinner = hwMap.servo.get("spinner");
-        //spinner.setPosition(0);
-        //spinner.setDirection(Servo.Direction.FORWARD);
+        widowMaker.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        spinner = hwMap.servo.get("spinner");
+        spinner.setPosition(0);
+        spinner.setDirection(Servo.Direction.FORWARD);
     }
 
     public void waitForTick(long periodMs) throws InterruptedException {
