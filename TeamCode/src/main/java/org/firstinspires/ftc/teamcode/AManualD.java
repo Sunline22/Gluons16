@@ -13,8 +13,10 @@ import com.qualcomm.robotcore.util.Range;
 public class AManualD extends LinearOpMode
 {
     Hardware robot = new Hardware();
-    //private int count = 0;
-    //private boolean servoTog = false;
+    private int count = 0;
+    private boolean servoTog = false;
+    double spinPos=0;
+
     public void runOpMode()throws InterruptedException{
 
         robot.init(hardwareMap);
@@ -82,18 +84,18 @@ public class AManualD extends LinearOpMode
                 robot.backRightMotor.setPower(0);
             }
         }
-        //if(gamepad2.y && count == 0) {
-            //count += 40;
-            //servoTog=!servoTog;
-        //}
-        //if(servoTog){
-            //spinPos+=.1d;
-            //if(spinPos>=1.0d)
-                //spinPos-=1.0d;
-            //spinPos=Math.round(spinPos*10.0d)/10.0d;
-            //robot.spinner.setPosition(spinPos);
-            //count--;
-        //}
+        if(gamepad2.y && count == 0) {
+            count += 40;
+            servoTog=!servoTog;
+        }
+        if(servoTog){
+            spinPos+=.1d;
+            if(spinPos>=1.0d)
+                spinPos-=1.0d;
+            spinPos=Math.round(spinPos*10.0d)/10.0d;
+            robot.spinner.setPosition(spinPos);
+            count--;
+        }
     }
     private void joyDir(double leftStickVert, double rightStickVert){
         if(leftStickVert>0){

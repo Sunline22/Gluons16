@@ -11,7 +11,7 @@ public class Hardware {
     public DcMotor  backLeftMotor    = null;
     public DcMotor backRightMotor   = null;
 
-    //public Servo spinner = null;
+    public Servo spinner = null;
 
     //public static final double driveForwardPower    =  0.45 ;
     //public static final double driveBackwardPower  = -0.45 ;
@@ -19,9 +19,7 @@ public class Hardware {
     HardwareMap hwMap           =  null;
     private ElapsedTime period  =  new ElapsedTime();
 
-    public Hardware(){
-
-    }
+    public Hardware(){}
 
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
@@ -45,9 +43,10 @@ public class Hardware {
         frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        //spinner = hwMap.servo.get("spinner");
-        //spinner.setPosition(0);
-        //spinner.setDirection(Servo.Direction.FORWARD);
+
+        spinner = hwMap.servo.get("spinner");
+        spinner.setPosition(0);
+        spinner.setDirection(Servo.Direction.FORWARD);
     }
 
     public void waitForTick(long periodMs) throws InterruptedException {
