@@ -51,6 +51,7 @@ public class AManualD extends LinearOpMode
         robot.backRightMotor.setPower(rightStickVert);
 
         if(leftStickVert==0 && rightStickVert==0) {
+
             if (gamepad1.dpad_up) {
                 telemetry.addData("Say", "Forward");
                 telemetry.update();
@@ -64,6 +65,7 @@ public class AManualD extends LinearOpMode
                 robot.backLeftMotor.setPower(.99);
                 robot.frontRightMotor.setPower(.99);
                 robot.backRightMotor.setPower(.99);
+
             } else if (gamepad1.dpad_down) {
                 telemetry.addData("Say", "Backward");
                 telemetry.update();
