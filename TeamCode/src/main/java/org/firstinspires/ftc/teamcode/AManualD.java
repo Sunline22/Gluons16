@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.util.Range;
 
 //test the booty
 
-public class AManualD extends LinearOpMode {
+public class AManualD extends LinearOpMode{
 
     Hardware robot = new Hardware();
     private int countCollect = 0, countShoot = 0;
@@ -22,7 +22,7 @@ public class AManualD extends LinearOpMode {
         telemetry.addData("Say", "Good morning");
         telemetry.update();
         waitForStart();
-        while (opModeIsActive()) {
+        while (opModeIsActive()){
             drive();
             spin();
             shoot();
@@ -31,11 +31,8 @@ public class AManualD extends LinearOpMode {
     }
 
     private void drive() {
-        double leftStickVert = gamepad1.left_stick_y;
-        double rightStickVert = gamepad1.right_stick_y;
-
-        leftStickVert = Range.clip(leftStickVert, -1.0, 1.0);
-        rightStickVert = Range.clip(rightStickVert, -1.0, 1.0);
+        double leftStickVert = Range.clip(gamepad1.left_stick_y,-1.0,1.0);
+        double rightStickVert = Range.clip(gamepad1.right_stick_y,-1.0,1.0);
 
         joyDir(leftStickVert, rightStickVert);
 
@@ -164,7 +161,4 @@ public class AManualD extends LinearOpMode {
             robot.cannonMotor.setPower(0);
 
         }
-
-    }
-
 }
