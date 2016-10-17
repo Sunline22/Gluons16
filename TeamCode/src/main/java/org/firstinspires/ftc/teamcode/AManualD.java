@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name="Linear Dirver TeleOp",group="TeleOp")
@@ -12,7 +11,7 @@ import com.qualcomm.robotcore.util.Range;
 
 public class AManualD extends LinearOpMode{
 
-    Hardware robot = new Hardware();
+    private Hardware robot = new Hardware();
     private int countCollect = 0, countShoot = 0;
     private boolean shootTog = false, collectTog = false;
 
