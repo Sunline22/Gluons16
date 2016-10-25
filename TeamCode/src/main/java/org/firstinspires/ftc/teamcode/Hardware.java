@@ -31,7 +31,7 @@ public class Hardware {
         frontRightMotor  =  hwMap.dcMotor.get("frontRightMotor");
         backLeftMotor    =  hwMap.dcMotor.get("backLeftMotor");
         backRightMotor   =  hwMap.dcMotor.get("backRightMotor");
-        backRightMotor   =  hwMap.dcMotor.get("backRightMotor");
+        cannonMotor      =  hwMap.dcMotor.get("cannonMotor");
 
         frontLeftMotor.setDirection(DcMotor.Direction.FORWARD);
         frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
