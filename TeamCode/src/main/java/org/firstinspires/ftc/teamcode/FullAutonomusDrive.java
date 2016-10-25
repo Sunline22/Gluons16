@@ -31,9 +31,9 @@ public class FullAutonomusDrive extends LinearOpMode {
             }
             if(sense())
                 action(decipher());
-
             }
         }
+
     public boolean sense(){
 
     }
