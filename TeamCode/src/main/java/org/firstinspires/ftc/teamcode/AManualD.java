@@ -11,10 +11,10 @@ import com.qualcomm.robotcore.util.Range;
 
 public class AManualD extends LinearOpMode{
 
-    private Hardware robot = new Hardware();
+    public Hardware robot = new Hardware();
     private int countCollect = 0, countShoot = 0;
     private boolean shootTog = false, collectTog = false;
-
+-
     public void runOpMode() throws InterruptedException {
 
         robot.init(hardwareMap);
@@ -22,13 +22,17 @@ public class AManualD extends LinearOpMode{
         telemetry.update();
         waitForStart();
         while (opModeIsActive()){
-            drive();
-            spin();
-            shoot();
-            robot.waitForTick(40);
+            control();
         }
     }
 
+    public void control(){
+        drive();
+        spin();
+        shoot();
+        robot.waitForTick(40);
+
+    }
     private void drive() {
         double leftStickVert = Range.clip(gamepad1.left_stick_y,-1.0,1.0);
         double rightStickVert = Range.clip(gamepad1.right_stick_y,-1.0,1.0);
