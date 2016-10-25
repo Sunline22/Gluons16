@@ -26,7 +26,7 @@ public class AManualD extends LinearOpMode{
         }
     }
 
-    public void control(){
+    public void control()throws java.lang.InterruptedException{
         drive();
         spin();
         shoot();
