@@ -52,11 +52,11 @@ public class Hardware {
         cannonMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         spinner = hwMap.servo.get("spinner");
-        spinner.setPosition(0);
+        spinner.setPosition(0.1);
         spinner.setDirection(Servo.Direction.FORWARD);
 
         lift = hwMap.servo.get("lift");
-        lift.setPosition(0);
+        lift.setPosition(0.1);
         lift.setDirection(Servo.Direction.FORWARD);
     }
 

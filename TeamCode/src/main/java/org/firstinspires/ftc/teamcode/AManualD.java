@@ -14,7 +14,7 @@ public class AManualD extends LinearOpMode{
     public Hardware robot = new Hardware();
     private int countCollect = 0, countShoot = 0;
     private boolean shootTog = false, collectTog = false;
--
+
     public void runOpMode() throws InterruptedException {
 
         robot.init(hardwareMap);
@@ -131,7 +131,7 @@ public class AManualD extends LinearOpMode{
         double spinPos = robot.spinner.getPosition();
         if (collectTog) {
             spinPos += .1d;
-            if (spinPos >= 1.0d)
+            if (spinPos > 1.0d)
                 spinPos -= 1.0d;
             spinPos = Math.round(spinPos * 10.0d) / 10.0d;
             robot.spinner.setPosition(spinPos);
