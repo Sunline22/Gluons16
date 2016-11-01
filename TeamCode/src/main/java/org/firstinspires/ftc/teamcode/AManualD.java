@@ -153,7 +153,7 @@ public class AManualD extends LinearOpMode{
 
         }
     }
-
+ 
     private void shoot(){
         if (gamepad2.x && countShoot == 0) {
             countShoot += 40;
