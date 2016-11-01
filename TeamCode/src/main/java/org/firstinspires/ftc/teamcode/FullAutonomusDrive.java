@@ -35,11 +35,11 @@ public class FullAutonomusDrive extends LinearOpMode {
         }
 
     public boolean sense(){
-
+        return false;
     }
 
     public String decipher(){
-
+        return " ";
     }
 
     public void action(String object){
