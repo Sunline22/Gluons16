@@ -33,6 +33,7 @@ public class AManualD extends LinearOpMode{
         robot.waitForTick(40);
 
     }
+
     private void drive() {
         double leftStickVert = Range.clip(gamepad1.left_stick_y,-1.0,1.0);
         double rightStickVert = Range.clip(gamepad1.right_stick_y,-1.0,1.0);
