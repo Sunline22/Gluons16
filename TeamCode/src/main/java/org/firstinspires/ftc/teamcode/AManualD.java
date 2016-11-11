@@ -120,49 +120,45 @@ public class AManualD extends LinearOpMode{
     }
 
     private void spin() {
-        if (gamepad2.y && countCollect == 0) {
-            countCollect += 40;
+        if (gamepad2.y && countCollect <= 0) {
+            countCollect = 20;
             collectTog = !collectTog;
         }
         spinSpinner();
         spinLift();
+        countCollect--;
     }
 
     private void spinSpinner() {
         double spinPos = robot.spinner.getPosition();
         if (collectTog) {
-            spinPos += .1d;
-            if (spinPos > 1.0d)
-                spinPos -= 1.0d;
-            spinPos = Math.round(spinPos * 10.0d) / 10.0d;
-            robot.spinner.setPosition(spinPos);
-            countCollect--;
-
+            robot.spinner.setPosition(.1);
         }
+        else
+            robot.spinner.setPosition(.5);
     }
 
     private void spinLift() {
         double liftPos = robot.lift.getPosition();
         if (collectTog) {
-            liftPos += .1d;
-            if (liftPos >= 1.0d)
-                liftPos -= 1.0d;
-            liftPos = Math.round(liftPos * 10.0d) / 10.0d;
-            robot.lift.setPosition(liftPos);
-            countCollect--;
-
+            robot.lift.setPosition(.1);
         }
+        else
+            robot.lift.setPosition(.5);
     }
 
-    private void shoot(){
-        if (gamepad2.x && countShoot == 0) {
-            countShoot += 40;
+    private void shoot() {
+        if (gamepad2.x && countShoot <= 0) {
+            countShoot = 20;
             shootTog = !shootTog;
         }
-        if (shootTog)
+        if (shootTog) {
             robot.cannonMotor.setPower(1.0);
-        else
+            countShoot--;
+        }
+        else{
             robot.cannonMotor.setPower(0);
-
+            countShoot--;
+            }
         }
 }
