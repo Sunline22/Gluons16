@@ -130,7 +130,6 @@ public class AManualD extends LinearOpMode{
     }
 
     private void spinSpinner() {
-        double spinPos = robot.spinner.getPosition();
         if (collectTog) {
             robot.spinner.setPosition(.1);
         }
@@ -139,7 +138,6 @@ public class AManualD extends LinearOpMode{
     }
 
     private void spinLift() {
-        double liftPos = robot.lift.getPosition();
         if (collectTog) {
             robot.lift.setPosition(.1);
         }
