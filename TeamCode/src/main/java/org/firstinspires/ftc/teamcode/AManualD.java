@@ -13,7 +13,7 @@ public class AManualD extends LinearOpMode{
 
     public Hardware robot = new Hardware();
     private int countLift = 0, countCollect = 0, countShoot = 0;
-    private boolean shootTog = false, collectTog = false, liftTog = false;
+    private boolean shootTog = false;
 
     public void runOpMode() throws InterruptedException {
 
@@ -121,67 +121,51 @@ public class AManualD extends LinearOpMode{
     }
 
     private void collect() {
-        if (gamepad2.dpad_right && countCollect == 0) {
+        if (gamepad2.dpad_right && countCollect == 0)
             countCollect = 20;
-            collectTog = true;
-        }
-        else if (gamepad2.dpad_right && countCollect == 1) {
-            collectTog = false;
+        else if (gamepad2.dpad_right && countCollect == 1)
             countCollect--;
-        }
 
-        if (gamepad2.dpad_left && countCollect == 0) {
+        if (gamepad2.dpad_left && countCollect == 0)
             countCollect = -20;
-            collectTog = true;
-        }
-        else if (gamepad2.dpad_left && countCollect == -1) {
-            collectTog = false;
+        else if (gamepad2.dpad_left && countCollect == -1)
             countCollect++;
-        }
 
         if(countCollect < -1)
             countCollect++;
         else if(countCollect > 1)
             countCollect--;
 
-        if (collectTog && countCollect > 0)
+        if (countCollect > 0)
             robot.spinner.setPosition(.1);
-        else if (collectTog && countCollect < 0)
+        else if (countCollect < 0)
             robot.spinner.setPosition(.9);
         else
             robot.spinner.setPosition(.5);
     }
 
     private void lift() {
-        if (gamepad2.dpad_up && countLift == 0) {
+        if (gamepad2.dpad_up && countLift == 0)
             countLift = 20;
-            liftTog = true;
-        }
-        else if (gamepad2.dpad_up && countLift == 1) {
-            liftTog = false;
+        else if (gamepad2.dpad_up && countLift == 1)
             countLift--;
-        }
 
-        if (gamepad2.dpad_down && countLift == 0) {
+        if (gamepad2.dpad_down && countLift == 0)
             countLift = -20;
-            liftTog = true;
-        }
-        else if (gamepad2.dpad_down && countLift == -1) {
-            liftTog = false;
+        else if (gamepad2.dpad_down && countLift == -1)
             countLift++;
-        }
 
         if(countLift < -1)
             countLift++;
         else if(countLift > 1)
             countLift--;
 
-        if (liftTog && countLift > 0)
-            robot.spinner.setPosition(.1);
-        else if (liftTog && countLift < 0)
-            robot.spinner.setPosition(.9);
+        if (countLift > 0)
+            robot.lift.setPosition(.1);
+        else if (countLift < 0)
+            robot.lift.setPosition(.9);
         else
-            robot.spinner.setPosition(.5);
+            robot.lift.setPosition(.5);
     }
 
     private void shoot() {
