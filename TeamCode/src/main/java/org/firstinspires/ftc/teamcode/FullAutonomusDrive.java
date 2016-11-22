@@ -29,12 +29,14 @@ public class FullAutonomusDrive extends LinearOpMode {
                     drive.control();
                 }
             }
+
             if(sense())
                 action(decipher());
             }
         }
 
     public boolean sense(){
+
         return false;
     }
 

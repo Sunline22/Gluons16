@@ -33,10 +33,10 @@ public class Hardware {
         backRightMotor   =  hwMap.dcMotor.get("backRightMotor");
         cannonMotor      =  hwMap.dcMotor.get("cannonMotor");
 
-        frontLeftMotor.setDirection(DcMotor.Direction.FORWARD);
-        frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
-        backLeftMotor.setDirection(DcMotor.Direction.FORWARD);
-        backRightMotor.setDirection(DcMotor.Direction.FORWARD);
+        frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+        frontRightMotor.setDirection(DcMotor.Direction.REVERSE);
+        backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+        backRightMotor.setDirection(DcMotor.Direction.REVERSE);
         cannonMotor.setDirection(DcMotor.Direction.REVERSE);
 
         frontLeftMotor.setPower(0);

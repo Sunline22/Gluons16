@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.util.Range;
 public class AManualD extends LinearOpMode{
 
     public Hardware robot = new Hardware();
-    private int countLift = 0, countCollect = 0, countShoot = 0;
+    private int collectState = 0, liftState = 0, countShoot = 0;
     private boolean shootTog = false;
 
     public void runOpMode() throws InterruptedException {
@@ -57,21 +57,21 @@ public class AManualD extends LinearOpMode{
     private String joyDir(double leftStickVert, double rightStickVert) {
         String joyDirTel = "";
         if (leftStickVert > 0) {
-            robot.frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-            robot.backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-            joyDirTel += "Left Forward ";
-        } else if (leftStickVert < 0) {
             robot.frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
             robot.backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+            joyDirTel += "Left Forward ";
+        } else if (leftStickVert < 0) {
+            robot.frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+            robot.backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
             joyDirTel += "Left Backwards ";
         }
         if (rightStickVert > 0) {
-            robot.frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-            robot.backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-            joyDirTel += "Right Forward ";
-        } else if (rightStickVert < 0) {
             robot.frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
             robot.backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+            joyDirTel += "Right Forward ";
+        } else if (rightStickVert < 0) {
+            robot.frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+            robot.backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
             joyDirTel += "Right Backwards ";
         }
         return joyDirTel;
@@ -121,48 +121,32 @@ public class AManualD extends LinearOpMode{
     }
 
     private void collect() {
-        if (gamepad2.dpad_right && countCollect == 0)
-            countCollect = 20;
-        else if (gamepad2.dpad_right && countCollect == 1)
-            countCollect--;
+        if(gamepad2.b)
+            collectState = 0;
+        else if(gamepad2.right_bumper)
+            collectState = 1;
+        else if(gamepad2.left_bumper)
+            collectState = -1;
 
-        if (gamepad2.dpad_left && countCollect == 0)
-            countCollect = -20;
-        else if (gamepad2.dpad_left && countCollect == -1)
-            countCollect++;
-
-        if(countCollect < -1)
-            countCollect++;
-        else if(countCollect > 1)
-            countCollect--;
-
-        if (countCollect > 0)
+        if (collectState == 1)
             robot.spinner.setPosition(.1);
-        else if (countCollect < 0)
+        else if (collectState == -1)
             robot.spinner.setPosition(.9);
         else
             robot.spinner.setPosition(.5);
     }
 
     private void lift() {
-        if (gamepad2.dpad_up && countLift == 0)
-            countLift = 20;
-        else if (gamepad2.dpad_up && countLift == 1)
-            countLift--;
+        if(gamepad2.a)
+            liftState = 0;
+        else if(gamepad2.right_trigger != 1)
+            liftState = 1;
+        else if(gamepad2.left_trigger != 1)
+            liftState = -1;
 
-        if (gamepad2.dpad_down && countLift == 0)
-            countLift = -20;
-        else if (gamepad2.dpad_down && countLift == -1)
-            countLift++;
-
-        if(countLift < -1)
-            countLift++;
-        else if(countLift > 1)
-            countLift--;
-
-        if (countLift > 0)
+        if (liftState == 1)
             robot.lift.setPosition(.1);
-        else if (countLift < 0)
+        else if (liftState == -1)
             robot.lift.setPosition(.9);
         else
             robot.lift.setPosition(.5);
