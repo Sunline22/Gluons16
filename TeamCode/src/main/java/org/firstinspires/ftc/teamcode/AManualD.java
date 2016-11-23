@@ -139,9 +139,9 @@ public class AManualD extends LinearOpMode{
     private void lift() {
         if(gamepad2.a)
             liftState = 0;
-        else if(gamepad2.right_trigger != 1)
+        else if(gamepad2.right_trigger != 0)
             liftState = 1;
-        else if(gamepad2.left_trigger != 1)
+        else if(gamepad2.left_trigger != 0)
             liftState = -1;
 
         if (liftState == 1)

@@ -37,7 +37,7 @@ public class Hardware {
         frontRightMotor.setDirection(DcMotor.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
         backRightMotor.setDirection(DcMotor.Direction.REVERSE);
-        cannonMotor.setDirection(DcMotor.Direction.REVERSE);
+        cannonMotor.setDirection(DcMotor.Direction.FORWARD);
 
         frontLeftMotor.setPower(0);
         frontRightMotor.setPower(0);

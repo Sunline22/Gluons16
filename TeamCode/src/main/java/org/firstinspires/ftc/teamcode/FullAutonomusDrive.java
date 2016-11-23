@@ -13,7 +13,8 @@ public class FullAutonomusDrive extends LinearOpMode {
 
     public Hardware robot = new Hardware();
     public AManualD drive = new AManualD();
-    private int avgDistChange = 0;
+    private final int defaultDist = 13;
+    private int distChange = defaultDist, senseDelay;
 
     public void runOpMode() throws InterruptedException {
 
@@ -36,7 +37,12 @@ public class FullAutonomusDrive extends LinearOpMode {
         }
 
     public boolean sense(){
-
+        if(senseDelay==0){
+            senseDelay=40;
+            distChange = distChange;
+        }
+        else
+            senseDelay--;
         return false;
     }
 
