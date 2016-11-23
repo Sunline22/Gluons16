@@ -8,8 +8,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class Hardware {
     public DcMotor frontLeftMotor  = null;
-    public DcMotor  frontRightMotor  = null;
-    public DcMotor  backLeftMotor    = null;
+    public DcMotor frontRightMotor  = null;
+    public DcMotor backLeftMotor    = null;
     public DcMotor backRightMotor   = null;
     public DcMotor cannonMotor   = null;
 
@@ -41,8 +41,8 @@ public class Hardware {
 
         frontLeftMotor.setPower(0);
         frontRightMotor.setPower(0);
-        backLeftMotor.setPower(0);
         backRightMotor.setPower(0);
+        backLeftMotor.setPower(0);
         cannonMotor.setPower(0);
 
         frontLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
