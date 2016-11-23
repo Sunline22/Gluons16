@@ -8,10 +8,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class Hardware {
     public DcMotor frontLeftMotor  = null;
-    public DcMotor  frontRightMotor  = null;
-    public DcMotor  backLeftMotor    = null;
+    public DcMotor frontRightMotor  = null;
+    public DcMotor backLeftMotor    = null;
     public DcMotor backRightMotor   = null;
     public DcMotor cannonMotor   = null;
+    //public DcMotor capBallLift = null;
 
     public Servo spinner = null;
     public Servo lift = null;
@@ -32,24 +33,28 @@ public class Hardware {
         backLeftMotor    =  hwMap.dcMotor.get("backLeftMotor");
         backRightMotor   =  hwMap.dcMotor.get("backRightMotor");
         cannonMotor      =  hwMap.dcMotor.get("cannonMotor");
+        //capBallLift      = hwMap.dcMotor.get("capBallLift");
 
         frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
         frontRightMotor.setDirection(DcMotor.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
         backRightMotor.setDirection(DcMotor.Direction.REVERSE);
         cannonMotor.setDirection(DcMotor.Direction.REVERSE);
+        //capBallLift.setDirection(DcMotor.Direction.REVERSE);
 
         frontLeftMotor.setPower(0);
         frontRightMotor.setPower(0);
-        backLeftMotor.setPower(0);
         backRightMotor.setPower(0);
+        backLeftMotor.setPower(0);
         cannonMotor.setPower(0);
+        //capBallLift.setPower(0);
 
         frontLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         cannonMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        //capBallLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         spinner = hwMap.servo.get("spinner");
         spinner.setPosition(0.5);
