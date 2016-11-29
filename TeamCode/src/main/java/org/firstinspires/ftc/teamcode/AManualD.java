@@ -176,4 +176,4 @@ public class AManualD extends LinearOpMode{
         else
             robot.capBallLift.setPower(0);
     }
-}
+} 
