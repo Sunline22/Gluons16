@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -16,6 +17,7 @@ public class Hardware {
     public Servo spinner = null;
     public Servo lift = null;
 
+    public ModernRoboticsI2cRangeSensor mainSensor = null;
     //public static final double driveForwardPower    =  0.45 ;
     //public static final double driveBackwardPower  = -0.45 ;
 
@@ -58,6 +60,8 @@ public class Hardware {
         lift = hwMap.servo.get("lift");
         lift.setPosition(0.5);
         lift.setDirection(Servo.Direction.REVERSE);
+
+        //mainSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "mainSensor");
     }
 
     public void waitForTick(long periodMs) throws InterruptedException {

@@ -2,8 +2,11 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @TeleOp(name="FullAuto teleOp",group="TeleOp")
 
@@ -36,13 +39,21 @@ public class FullAutonomusDrive extends LinearOpMode {
             }
         }
 
+    public void search() {
+
+    }
+
     public boolean sense(){
         if(senseDelay==0){
             senseDelay=40;
-            distChange = distChange;
+            //distChange-=robot.mainSensor.getDistance(DistanceUnit.CM);
         }
         else
             senseDelay--;
+        if(Math.abs(distChange)>.5)
+            decipher();
+        else
+            search();
         return false;
     }
 

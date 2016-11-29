@@ -158,7 +158,7 @@ public class AManualD extends LinearOpMode{
             shootTog = !shootTog;
         }
         if (shootTog) {
-            robot.cannonMotor.setPower(.75);
+            robot.cannonMotor.setPower(1.0);
             countShoot--;
         }
         else{
