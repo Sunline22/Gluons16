@@ -13,7 +13,7 @@ public class AManualD extends LinearOpMode{
 
     public Hardware robot = new Hardware();
     private int collectState = 0, liftState = 0, countShoot = 0;
-    private boolean shootTog = false;
+    private boolean shootTog = false, pushState = false;
 
     public void runOpMode() throws InterruptedException {
 
@@ -31,6 +31,7 @@ public class AManualD extends LinearOpMode{
         collect();
         lift();
         shoot();
+        push();
         robot.waitForTick(40);
 
     }
@@ -166,4 +167,19 @@ public class AManualD extends LinearOpMode{
             countShoot--;
             }
         }
+
+    private void push() throws java.lang.InterruptedException{
+        if(gamepad2.dpad_right && !pushState){
+            pushState = true;
+            robot.pusher.setPosition(.9);
+            {sleep(10);
+            robot.pusher.setPosition(.5);}
+        else if(gamepad2.dpad_left && pushState){
+            pushState = false;
+            robot.pusher.setPosition(.1);
+            sleep(10);
+            robot.pusher.setPosition(.5);}
+
+        }
+    }
 }
