@@ -31,7 +31,7 @@ public class AManualD extends LinearOpMode{
         collect();
         lift();
         shoot();
-        capBall();
+        //capBall();
         robot.waitForTick(40);
 
     }
@@ -159,7 +159,7 @@ public class AManualD extends LinearOpMode{
             shootTog = !shootTog;
         }
         if (shootTog) {
-            robot.cannonMotor.setPower(1.0);
+            robot.cannonMotor.setPower(.65);
             countShoot--;
         }
         else{
@@ -168,12 +168,12 @@ public class AManualD extends LinearOpMode{
             }
         }
 
-    private void capBall(){
-        if(gamepad1.dpad_up)
-            robot.capBallLift.setPower(1);
-        else if(gamepad1.dpad_down)
-            robot.capBallLift.setPower(-1);
-        else
-            robot.capBallLift.setPower(0);
-    }
+    //private void capBall(){
+      //  if(gamepad1.dpad_up)
+        //    robot.capBallLift.setPower(1);
+        //else if(gamepad1.dpad_down)
+         //   robot.capBallLift.setPower(-1);
+        //else
+         //   robot.capBallLift.setPower(0);
+    //}
 } 
