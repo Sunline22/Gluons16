@@ -15,6 +15,7 @@ public class Hardware {
 
     public Servo spinner = null;
     public Servo lift = null;
+    public Servo pusher = null;
 
     //public static final double driveForwardPower    =  0.45 ;
     //public static final double driveBackwardPower  = -0.45 ;
@@ -33,10 +34,10 @@ public class Hardware {
         backRightMotor   =  hwMap.dcMotor.get("backRightMotor");
         cannonMotor      =  hwMap.dcMotor.get("cannonMotor");
 
-        frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
-        frontRightMotor.setDirection(DcMotor.Direction.REVERSE);
-        backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
-        backRightMotor.setDirection(DcMotor.Direction.REVERSE);
+        frontLeftMotor.setDirection(DcMotor.Direction.FORWARD);
+        frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
+        backLeftMotor.setDirection(DcMotor.Direction.FORWARD);
+        backRightMotor.setDirection(DcMotor.Direction.FORWARD);
         cannonMotor.setDirection(DcMotor.Direction.REVERSE);
 
         frontLeftMotor.setPower(0);
@@ -58,6 +59,10 @@ public class Hardware {
         lift = hwMap.servo.get("lift");
         lift.setPosition(0.5);
         lift.setDirection(Servo.Direction.REVERSE);
+
+        pusher = hwMap.servo.get("pusher");
+        pusher.setPosition(0.5);
+        pusher.setDirection(Servo.Direction.REVERSE);
     }
 
     public void waitForTick(long periodMs) throws InterruptedException {
