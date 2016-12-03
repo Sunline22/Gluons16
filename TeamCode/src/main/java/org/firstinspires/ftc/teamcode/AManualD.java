@@ -13,7 +13,7 @@ public class AManualD extends LinearOpMode{
 
     public Hardware robot = new Hardware();
     private int collectState = 0, liftState = 0, countShoot = 0;
-    private boolean shootTog = false, pushState = false;
+    private boolean shootTog = false;
 
     public void runOpMode() throws InterruptedException {
 

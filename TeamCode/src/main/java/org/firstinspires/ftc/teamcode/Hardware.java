@@ -17,7 +17,6 @@ public class Hardware {
 
     public Servo spinner = null;
     public Servo lift = null;
-    public Servo pusher = null;
 
     public ModernRoboticsI2cRangeSensor mainSensor = null;
     //public static final double driveForwardPower    =  0.45 ;
