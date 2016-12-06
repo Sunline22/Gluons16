@@ -1,4 +1,5 @@
-Spackage org.firstinspires.ftc.teamcode;
+
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -13,7 +14,7 @@ public class AManualD extends LinearOpMode{
 
     public Hardware robot = new Hardware();
     private int collectState = 0, liftState = 0, countShoot = 0;
-    private boolean shootTog = false;
+    private boolean shootTog = false, pushState = false;
 
     public void runOpMode() throws InterruptedException {
 
@@ -31,6 +32,7 @@ public class AManualD extends LinearOpMode{
         collect();
         lift();
         shoot();
+        push();
         //capBall();
         robot.waitForTick(40);
 
@@ -55,24 +57,26 @@ public class AManualD extends LinearOpMode{
         }
     }
 
+    //shredder2500
+
     private String joyDir(double leftStickVert, double rightStickVert) {
         String joyDirTel = "";
         if (leftStickVert > 0) {
-            robot.frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-            robot.backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-            joyDirTel += "Left Forward ";
-        } else if (leftStickVert < 0) {
             robot.frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
             robot.backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+            joyDirTel += "Left Forward ";
+        } else if (leftStickVert < 0) {
+            robot.frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+            robot.backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
             joyDirTel += "Left Backwards ";
         }
         if (rightStickVert > 0) {
-            robot.frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-            robot.backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-            joyDirTel += "Right Forward ";
-        } else if (rightStickVert < 0) {
             robot.frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
             robot.backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+            joyDirTel += "Right Forward ";
+        } else if (rightStickVert < 0) {
+            robot.frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+            robot.backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
             joyDirTel += "Right Backwards ";
         }
         return joyDirTel;
@@ -159,7 +163,7 @@ public class AManualD extends LinearOpMode{
             shootTog = !shootTog;
         }
         if (shootTog) {
-            robot.cannonMotor.setPower(.65);
+            robot.cannonMotor.setPower(.4);
             countShoot--;
         }
         else{
@@ -167,7 +171,16 @@ public class AManualD extends LinearOpMode{
             countShoot--;
             }
         }
-      }
+    private void push() throws java.lang.InterruptedException{
+        if(gamepad2.right_stick_button){
+            robot.pusher.setPosition(.9);
+            sleep(2000);
+            robot.pusher.setPosition(.1);
+            sleep(2000);
+            robot.pusher.setPosition(.5);}
+
+        }
+    }
     //private void capBall(){
       //  if(gamepad1.dpad_up)
         //    robot.capBallLift.setPower(1);
@@ -176,4 +189,3 @@ public class AManualD extends LinearOpMode{
         //else
          //   robot.capBallLift.setPower(0);
     //}
-}

@@ -17,6 +17,7 @@ public class Hardware {
 
     public Servo spinner = null;
     public Servo lift = null;
+    public Servo pusher = null;
 
     public ModernRoboticsI2cRangeSensor mainSensor = null;
     //public static final double driveForwardPower    =  0.45 ;
@@ -37,10 +38,10 @@ public class Hardware {
         cannonMotor      =  hwMap.dcMotor.get("cannonMotor");
         //capBallLift      =  hwMap.dcMotor.get("capBallLift");
 
-        frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
-        frontRightMotor.setDirection(DcMotor.Direction.REVERSE);
-        backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
-        backRightMotor.setDirection(DcMotor.Direction.REVERSE);
+        frontLeftMotor.setDirection(DcMotor.Direction.FORWARD);
+        frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
+        backLeftMotor.setDirection(DcMotor.Direction.FORWARD);
+        backRightMotor.setDirection(DcMotor.Direction.FORWARD);
         cannonMotor.setDirection(DcMotor.Direction.FORWARD);
         //capBallLift.setDirection(DcMotor.Direction.FORWARD);
 
@@ -65,6 +66,10 @@ public class Hardware {
         lift = hwMap.servo.get("lift");
         lift.setPosition(0.5);
         lift.setDirection(Servo.Direction.REVERSE);
+
+        pusher = hwMap.servo.get("pusher");
+        pusher.setPosition(0.5);
+        pusher.setDirection(Servo.Direction.REVERSE);
 
         //mainSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "mainSensor");
       }
