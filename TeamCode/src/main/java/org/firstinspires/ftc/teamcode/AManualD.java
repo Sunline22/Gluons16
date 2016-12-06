@@ -1,4 +1,4 @@
-Spackage org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -167,7 +167,7 @@ public class AManualD extends LinearOpMode{
             countShoot--;
             }
         }
-      }
+}
     //private void capBall(){
       //  if(gamepad1.dpad_up)
         //    robot.capBallLift.setPower(1);
@@ -176,4 +176,3 @@ public class AManualD extends LinearOpMode{
         //else
          //   robot.capBallLift.setPower(0);
     //}
-}
