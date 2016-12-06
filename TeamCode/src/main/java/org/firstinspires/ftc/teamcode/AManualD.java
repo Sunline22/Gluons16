@@ -165,9 +165,8 @@ public class AManualD extends LinearOpMode{
         else{
             robot.cannonMotor.setPower(0);
             countShoot--;
-            }
         }
-}
+    }
     //private void capBall(){
       //  if(gamepad1.dpad_up)
         //    robot.capBallLift.setPower(1);
@@ -176,3 +175,5 @@ public class AManualD extends LinearOpMode{
         //else
          //   robot.capBallLift.setPower(0);
     //}
+//}
+}
