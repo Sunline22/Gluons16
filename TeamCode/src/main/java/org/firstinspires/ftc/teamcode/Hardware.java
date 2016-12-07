@@ -30,44 +30,72 @@ public class Hardware {
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
 
-        frontLeftMotor   =  hwMap.dcMotor.get("frontLeftMotor");
-        frontRightMotor  =  hwMap.dcMotor.get("frontRightMotor");
-        backLeftMotor    =  hwMap.dcMotor.get("backLeftMotor");
-        backRightMotor   =  hwMap.dcMotor.get("backRightMotor");
-        cannonMotor      =  hwMap.dcMotor.get("cannonMotor");
-        //capBallLift      =  hwMap.dcMotor.get("capBallLift");
+        InitComponents();
 
-        frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
-        frontRightMotor.setDirection(DcMotor.Direction.REVERSE);
-        backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
-        backRightMotor.setDirection(DcMotor.Direction.REVERSE);
-        cannonMotor.setDirection(DcMotor.Direction.FORWARD);
-        //capBallLift.setDirection(DcMotor.Direction.FORWARD);
+        //mainSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "mainSensor");
+      }
 
-        frontLeftMotor.setPower(0);
-        frontRightMotor.setPower(0);
-        backRightMotor.setPower(0);
-        backLeftMotor.setPower(0);
-        cannonMotor.setPower(0);
-        //capBallLift.setPower(0);
+    private void InitComponents() {
+        GetMotors();
 
+        InitMotorsDirection();
+
+        SetMotorsInitPower();
+
+        SetMotorInitMode();
+
+        InitSpinner();
+
+        InitLift();
+    }
+
+    private void InitLift() {
+        lift = hwMap.servo.get("lift");
+        lift.setPosition(0.5);
+        lift.setDirection(Servo.Direction.REVERSE);
+    }
+
+    private void InitSpinner() {
+        spinner = hwMap.servo.get("spinner");
+        spinner.setPosition(0.5);
+        spinner.setDirection(Servo.Direction.FORWARD);
+    }
+
+    private void SetMotorInitMode() {
         frontLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         cannonMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //capBallLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
 
-        spinner = hwMap.servo.get("spinner");
-        spinner.setPosition(0.5);
-        spinner.setDirection(Servo.Direction.FORWARD);
+    private void SetMotorsInitPower() {
+        frontLeftMotor.setPower(0);
+        frontRightMotor.setPower(0);
+        backRightMotor.setPower(0);
+        backLeftMotor.setPower(0);
+        cannonMotor.setPower(0);
+        //capBallLift.setPower(0);
+    }
 
-        lift = hwMap.servo.get("lift");
-        lift.setPosition(0.5);
-        lift.setDirection(Servo.Direction.REVERSE);
+    private void InitMotorsDirection() {
+        frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+        frontRightMotor.setDirection(DcMotor.Direction.REVERSE);
+        backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+        backRightMotor.setDirection(DcMotor.Direction.REVERSE);
+        cannonMotor.setDirection(DcMotor.Direction.FORWARD);
+        //capBallLift.setDirection(DcMotor.Direction.FORWARD);
+    }
 
-        //mainSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "mainSensor");
-      }
+    private void GetMotors() {
+        frontLeftMotor   =  hwMap.dcMotor.get("frontLeftMotor");
+        frontRightMotor  =  hwMap.dcMotor.get("frontRightMotor");
+        backLeftMotor    =  hwMap.dcMotor.get("backLeftMotor");
+        backRightMotor   =  hwMap.dcMotor.get("backRightMotor");
+        cannonMotor      =  hwMap.dcMotor.get("cannonMotor");
+        //capBallLift      =  hwMap.dcMotor.get("capBallLift");
+    }
 
     public void waitForTick(long periodMs) throws InterruptedException {
 
