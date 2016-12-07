@@ -1,4 +1,3 @@
-
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -171,6 +170,7 @@ public class AManualD extends LinearOpMode{
             countShoot--;
             }
         }
+
     private void push() throws java.lang.InterruptedException{
         if(gamepad2.right_stick_button){
             robot.pusher.setPosition(.9);
