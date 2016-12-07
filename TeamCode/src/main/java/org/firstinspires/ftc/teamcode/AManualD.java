@@ -13,7 +13,7 @@ public class AManualD extends LinearOpMode{
 
     public Hardware robot = new Hardware();
     private int collectState = 0, liftState = 0, countShoot = 0;
-    private boolean shootTog = false;
+    private boolean shootTog = false, pushState = false;
 
     public void runOpMode() throws InterruptedException {
 
@@ -31,9 +31,9 @@ public class AManualD extends LinearOpMode{
         collect();
         lift();
         shoot();
+        push();
         //capBall();
         robot.waitForTick(40);
-
     }
 
     private void drive() {
@@ -55,24 +55,26 @@ public class AManualD extends LinearOpMode{
         }
     }
 
+    //shredder2500
+
     private String joyDir(double leftStickVert, double rightStickVert) {
         String joyDirTel = "";
         if (leftStickVert > 0) {
-            robot.frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-            robot.backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-            joyDirTel += "Left Forward ";
-        } else if (leftStickVert < 0) {
             robot.frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
             robot.backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+            joyDirTel += "Left Forward ";
+        } else if (leftStickVert < 0) {
+            robot.frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+            robot.backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
             joyDirTel += "Left Backwards ";
         }
         if (rightStickVert > 0) {
-            robot.frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-            robot.backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-            joyDirTel += "Right Forward ";
-        } else if (rightStickVert < 0) {
             robot.frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
             robot.backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+            joyDirTel += "Right Forward ";
+        } else if (rightStickVert < 0) {
+            robot.frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+            robot.backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
             joyDirTel += "Right Backwards ";
         }
         return joyDirTel;
@@ -159,21 +161,20 @@ public class AManualD extends LinearOpMode{
             shootTog = !shootTog;
         }
         if (shootTog) {
-            robot.cannonMotor.setPower(.65);
+            robot.cannonMotor.setPower(.4);
             countShoot--;
-        }
-        else{
+        } else {
             robot.cannonMotor.setPower(0);
             countShoot--;
         }
     }
-    //private void capBall(){
-      //  if(gamepad1.dpad_up)
-        //    robot.capBallLift.setPower(1);
-        //else if(gamepad1.dpad_down)
-         //   robot.capBallLift.setPower(-1);
-        //else
-         //   robot.capBallLift.setPower(0);
-    //}
-//}
+    private void push()throws InterruptedException{
+        if(gamepad2.right_stick_button) {
+            robot.pusher.setPosition(.9);
+                sleep(2000);
+            robot.pusher.setPosition(.1);
+                sleep(2000);
+            robot.pusher.setPosition(.5);
+        }
+    }
 }

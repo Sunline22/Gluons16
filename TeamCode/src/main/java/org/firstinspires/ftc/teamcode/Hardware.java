@@ -17,6 +17,7 @@ public class Hardware {
 
     public Servo spinner = null;
     public Servo lift = null;
+    public Servo pusher = null;
 
     public ModernRoboticsI2cRangeSensor mainSensor = null;
     //public static final double driveForwardPower    =  0.45 ;
@@ -31,9 +32,7 @@ public class Hardware {
         hwMap = ahwMap;
 
         InitComponents();
-
-        //mainSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "mainSensor");
-      }
+    }
 
     private void InitComponents() {
         GetMotors();
@@ -47,6 +46,14 @@ public class Hardware {
         InitSpinner();
 
         InitLift();
+
+        InitPusher();
+    }
+
+    private void InitPusher() {
+        pusher = hwMap.servo.get("pusher");
+        pusher.setPosition(0.5);
+        pusher.setDirection(Servo.Direction.REVERSE);
     }
 
     private void InitLift() {
@@ -89,13 +96,14 @@ public class Hardware {
     }
 
     private void GetMotors() {
-        frontLeftMotor   =  hwMap.dcMotor.get("frontLeftMotor");
-        frontRightMotor  =  hwMap.dcMotor.get("frontRightMotor");
-        backLeftMotor    =  hwMap.dcMotor.get("backLeftMotor");
-        backRightMotor   =  hwMap.dcMotor.get("backRightMotor");
-        cannonMotor      =  hwMap.dcMotor.get("cannonMotor");
+        frontLeftMotor = hwMap.dcMotor.get("frontLeftMotor");
+        frontRightMotor = hwMap.dcMotor.get("frontRightMotor");
+        backLeftMotor = hwMap.dcMotor.get("backLeftMotor");
+        backRightMotor = hwMap.dcMotor.get("backRightMotor");
+        cannonMotor = hwMap.dcMotor.get("cannonMotor");
         //capBallLift      =  hwMap.dcMotor.get("capBallLift");
     }
+        //mainSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "mainSensor");
 
     public void waitForTick(long periodMs) throws InterruptedException {
 
