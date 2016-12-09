@@ -35,6 +35,7 @@ public class AManualD extends LinearOpMode
         collect();
         lift();
         shoot();
+        power();
         //capBall();
         robot.waitForTick(40);
     }
