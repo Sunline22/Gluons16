@@ -9,13 +9,15 @@ import com.qualcomm.robotcore.util.Range;
 
 //test the booty
 
-public class AManualD extends LinearOpMode{
-
+public class AManualD extends LinearOpMode
+{
     public Hardware robot = new Hardware();
     private int collectState = 0, liftState = 0, countShoot = 0;
-    private boolean shootTog = false, pushState = false;
+    private double shootPow = .4;
+    private boolean shootTog = false;
 
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() throws InterruptedException
+    {
 
         robot.init(hardwareMap);
         telemetry.addData("Say", "Good morning");
@@ -26,53 +28,72 @@ public class AManualD extends LinearOpMode{
         }
     }
 
-    public void control()throws java.lang.InterruptedException{
+    public void control()throws java.lang.InterruptedException
+    {
+        telem();
         drive();
         collect();
         lift();
         shoot();
-        push();
         //capBall();
         robot.waitForTick(40);
     }
 
-    private void drive() {
-        double leftStickVert = Range.clip(gamepad1.left_stick_y,-1.0,1.0);
-        double rightStickVert = Range.clip(gamepad1.right_stick_y,-1.0,1.0);
+    private void power()
+    {
+        if(gamepad1.y)
+            shootPow+=.5;
+        if(gamepad1.x)
+            shootPow-=.5;
+    }
 
-        joyDir(leftStickVert, rightStickVert);
-
-        telemetry.addData("Say", joyDir(leftStickVert, rightStickVert));
+    private void telem()
+    {
+        telemetry.clear();
+        telemetry.addData("WidowMaker", (shootTog)?"On":"Off" + " PL: " + shootPow);
+        telemetry.addData("Lift", (liftState == 1)?"Up":(liftState == -1)?"Down":"Off");
+        telemetry.addData("Spinner", (collectState == 1)?"Up":(collectState == -1)?"Down":"Off");
+        telemetry.addData("LeftStick", gamepad1.left_stick_y);
+        telemetry.addData("RightStick", gamepad1.right_stick_y);
         telemetry.update();
+    }
 
-        leftStickVert = Math.abs(leftStickVert);
-        rightStickVert = Math.abs(rightStickVert);
+    private void drive()
+    {
+        double leftStickVert = Math.abs(Range.clip(gamepad1.left_stick_y,-1.0,1.0));
+        double rightStickVert = Math.abs(Range.clip(gamepad1.right_stick_y,-1.0,1.0));
 
-        motorPow(leftStickVert, rightStickVert);
-
-        if (leftStickVert == 0 && rightStickVert == 0) {
+        if (leftStickVert == 0 && rightStickVert == 0)
             dPad();
+        else
+        {
+            joyDir(leftStickVert, rightStickVert);
+            motorPow(leftStickVert, rightStickVert);
         }
     }
 
-    //shredder2500
-
     private String joyDir(double leftStickVert, double rightStickVert) {
         String joyDirTel = "";
-        if (leftStickVert > 0) {
+        if (leftStickVert > 0)
+        {
             robot.frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
             robot.backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
             joyDirTel += "Left Forward ";
-        } else if (leftStickVert < 0) {
+        }
+        else if (leftStickVert < 0)
+        {
             robot.frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
             robot.backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
             joyDirTel += "Left Backwards ";
         }
-        if (rightStickVert > 0) {
+        if (rightStickVert > 0)
+        {
             robot.frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
             robot.backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
             joyDirTel += "Right Forward ";
-        } else if (rightStickVert < 0) {
+        }
+        else if (rightStickVert < 0)
+        {
             robot.frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
             robot.backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
             joyDirTel += "Right Backwards ";
@@ -90,11 +111,12 @@ public class AManualD extends LinearOpMode{
             robot.frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
             robot.backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-            robot.frontLeftMotor.setPower(.99);
-            robot.backLeftMotor.setPower(.99);
-            robot.frontRightMotor.setPower(.99);
-            robot.backRightMotor.setPower(.99);
-        } else if (gamepad1.dpad_down) {
+            robot.frontLeftMotor.setPower(.5);
+            robot.backLeftMotor.setPower(.5);
+            robot.frontRightMotor.setPower(.5);
+            robot.backRightMotor.setPower(.5);
+        } else if (gamepad1.dpad_down)
+        {
             telemetry.addData("Say", "Backward");
             telemetry.update();
 
@@ -103,11 +125,13 @@ public class AManualD extends LinearOpMode{
             robot.frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
             robot.backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
-            robot.frontLeftMotor.setPower(.99);
-            robot.backLeftMotor.setPower(.99);
-            robot.frontRightMotor.setPower(.99);
-            robot.backRightMotor.setPower(.99);
-        } else {
+            robot.frontLeftMotor.setPower(.5);
+            robot.backLeftMotor.setPower(.5);
+            robot.frontRightMotor.setPower(.5);
+            robot.backRightMotor.setPower(.5);
+        }
+        else
+        {
             robot.frontLeftMotor.setPower(0);
             robot.backLeftMotor.setPower(0);
             robot.frontRightMotor.setPower(0);
@@ -115,15 +139,16 @@ public class AManualD extends LinearOpMode{
         }
     }
 
-    private void motorPow(double leftStickVert, double rightStickVert) {
+    private void motorPow(double leftStickVert, double rightStickVert)
+    {
         robot.frontLeftMotor.setPower(leftStickVert);
         robot.backLeftMotor.setPower(leftStickVert);
         robot.frontRightMotor.setPower(rightStickVert);
         robot.backRightMotor.setPower(rightStickVert);
-
     }
 
-    private void collect() {
+    private void collect()
+    {
         if(gamepad2.b)
             collectState = 0;
         else if(gamepad2.right_bumper)
@@ -139,7 +164,8 @@ public class AManualD extends LinearOpMode{
             robot.spinner.setPosition(.5);
     }
 
-    private void lift() {
+    private void lift()
+    {
         if(gamepad2.a)
             liftState = 0;
         else if(gamepad2.right_trigger != 0)
@@ -155,26 +181,22 @@ public class AManualD extends LinearOpMode{
             robot.lift.setPosition(.5);
     }
 
-    private void shoot() {
-        if (gamepad2.x && countShoot <= 0) {
+    private void shoot()
+    {
+        if (gamepad2.x && countShoot <= 0)
+        {
             countShoot = 20;
             shootTog = !shootTog;
         }
-        if (shootTog) {
+        if (shootTog)
+        {
             robot.cannonMotor.setPower(.4);
             countShoot--;
-        } else {
+        }
+        else
+        {
             robot.cannonMotor.setPower(0);
             countShoot--;
-        }
-    }
-    private void push()throws InterruptedException{
-        if(gamepad2.right_stick_button) {
-            robot.pusher.setPosition(.9);
-                sleep(2000);
-            robot.pusher.setPosition(.1);
-                sleep(2000);
-            robot.pusher.setPosition(.5);
         }
     }
 }

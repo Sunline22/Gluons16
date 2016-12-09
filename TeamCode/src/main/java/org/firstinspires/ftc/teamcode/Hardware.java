@@ -17,7 +17,6 @@ public class Hardware {
 
     public Servo spinner = null;
     public Servo lift = null;
-    public Servo pusher = null;
 
     public ModernRoboticsI2cRangeSensor mainSensor = null;
     //public static final double driveForwardPower    =  0.45 ;
@@ -28,13 +27,15 @@ public class Hardware {
 
     public Hardware(){}
 
-    public void init(HardwareMap ahwMap) {
+    public void init(HardwareMap ahwMap)
+    {
         hwMap = ahwMap;
 
         InitComponents();
     }
 
-    private void InitComponents() {
+    private void InitComponents()
+    {
         GetMotors();
 
         InitMotorsDirection();
@@ -46,14 +47,6 @@ public class Hardware {
         InitSpinner();
 
         InitLift();
-
-        InitPusher();
-    }
-
-    private void InitPusher() {
-        pusher = hwMap.servo.get("pusher");
-        pusher.setPosition(0.5);
-        pusher.setDirection(Servo.Direction.REVERSE);
     }
 
     private void InitLift() {
