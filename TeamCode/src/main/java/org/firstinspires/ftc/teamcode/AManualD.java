@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
+import java.text.DecimalFormat;
 
 @TeleOp(name="Linear Dirver TeleOp",group="TeleOp")
 
@@ -12,7 +13,7 @@ import com.qualcomm.robotcore.util.Range;
 public class AManualD extends LinearOpMode
 {
     public Hardware robot = new Hardware();
-    private int collectState = 0, liftState = 0, countShoot = 0;
+    private int collectState = 0, liftState = 0, countShoot = 0, countShootChange = 0;
     private double shootPow = .4;
     private boolean shootTog = false;
 
@@ -42,18 +43,26 @@ public class AManualD extends LinearOpMode
 
     private void power()
     {
-        if(gamepad1.y)
-            shootPow+=.5;
-        if(gamepad1.x)
-            shootPow-=.5;
+        if(gamepad1.y && countShootChange <= 0 && shootPow + .05 < 1.0)
+        {
+            shootPow += .025;
+            countShootChange = 5;
+        }
+        else if(gamepad1.x && countShootChange <= 0 && shootPow - .05 >= 0)
+        {
+            shootPow-=.025;
+            countShootChange = 5;
+        }
+        shootPow = ((double)((int)(shootPow*100)))/100;
+        countShootChange--;
     }
 
     private void telem()
     {
         telemetry.clear();
-        telemetry.addData("WidowMaker", (shootTog)?"On":"Off" + " PL: " + shootPow);
+        telemetry.addData("WidowMaker", ((shootTog)?"On":"Off") + " PL: " + shootPow);
         telemetry.addData("Lift", (liftState == 1)?"Up":(liftState == -1)?"Down":"Off");
-        telemetry.addData("Spinner", (collectState == 1)?"Up":(collectState == -1)?"Down":"Off");
+        telemetry.addData("Spinner", (collectState == 1)?"In":(collectState == -1)?"Out":"Off");
         telemetry.addData("LeftStick", gamepad1.left_stick_y);
         telemetry.addData("RightStick", gamepad1.right_stick_y);
         telemetry.update();
@@ -61,14 +70,18 @@ public class AManualD extends LinearOpMode
 
     private void drive()
     {
-        double leftStickVert = Math.abs(Range.clip(gamepad1.left_stick_y,-1.0,1.0));
-        double rightStickVert = Math.abs(Range.clip(gamepad1.right_stick_y,-1.0,1.0));
+        double leftStickVert = Range.clip(gamepad1.left_stick_y,-1.0,1.0);
+        double rightStickVert = Range.clip(gamepad1.right_stick_y,-1.0,1.0);
 
-        if (leftStickVert == 0 && rightStickVert == 0)
+        joyDir(leftStickVert, rightStickVert);
+
+        leftStickVert = Math.abs(leftStickVert);
+        rightStickVert = Math.abs(rightStickVert);
+
+        if (leftStickVert <= .025 && rightStickVert <= .025)
             dPad();
         else
         {
-            joyDir(leftStickVert, rightStickVert);
             motorPow(leftStickVert, rightStickVert);
         }
     }
@@ -191,7 +204,7 @@ public class AManualD extends LinearOpMode
         }
         if (shootTog)
         {
-            robot.cannonMotor.setPower(.4);
+            robot.cannonMotor.setPower(shootPow);
             countShoot--;
         }
         else
