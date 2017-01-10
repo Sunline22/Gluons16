@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
-import java.text.DecimalFormat;
 
 @TeleOp(name="Linear Dirver TeleOp",group="TeleOp")
 
@@ -12,7 +11,7 @@ import java.text.DecimalFormat;
 
 public class AManualD extends LinearOpMode
 {
-    public Hardware robot = new Hardware();
+    Hardware robot = new Hardware();
     private int collectState = 0, liftState = 0, countShoot = 0, countShootChange = 0;
     private double shootPow = .4;
     private boolean shootTog = false;

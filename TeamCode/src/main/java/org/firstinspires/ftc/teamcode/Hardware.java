@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsAnalogOpticalDistanceSensor;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -19,6 +21,9 @@ public class Hardware {
     public Servo lift = null;
 
     public ModernRoboticsI2cRangeSensor mainSensor = null;
+    public ModernRoboticsI2cColorSensor beaconColour = null;
+    public ModernRoboticsAnalogOpticalDistanceSensor beaconStrip = null;
+
     //public static final double driveForwardPower    =  0.45 ;
     //public static final double driveBackwardPower  = -0.45 ;
 
@@ -47,6 +52,12 @@ public class Hardware {
         InitSpinner();
 
         InitLift();
+
+        InitSensors();
+    }
+
+    private void InitSensors(){
+
     }
 
     private void InitLift() {
