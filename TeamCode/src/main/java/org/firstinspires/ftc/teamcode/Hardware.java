@@ -57,7 +57,7 @@ public class Hardware {
     }
 
     private void InitSensors(){
-
+        //mainSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "mainSensor");
     }
 
     private void InitLift() {
@@ -95,7 +95,7 @@ public class Hardware {
         frontRightMotor.setDirection(DcMotor.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
         backRightMotor.setDirection(DcMotor.Direction.REVERSE);
-        cannonMotor.setDirection(DcMotor.Direction.FORWARD);
+        cannonMotor.setDirection(DcMotor.Direction.REVERSE);
         //capBallLift.setDirection(DcMotor.Direction.FORWARD);
     }
 
@@ -107,7 +107,6 @@ public class Hardware {
         cannonMotor = hwMap.dcMotor.get("cannonMotor");
         //capBallLift      =  hwMap.dcMotor.get("capBallLift");
     }
-        //mainSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "mainSensor");
 
     public void waitForTick(long periodMs) throws InterruptedException {
 
