@@ -24,8 +24,9 @@ public class AutoRedAlliance extends LinearOpMode
 
         }
     }
-    public boolean color()
-        while(robot.beaconColour.blue >|| robot.beaconColour.red)
+    public boolean color(){
+        //while(robot.beaconColour.blue >|| robot.beaconColour.red)
+        return true;
     }
 
 }
