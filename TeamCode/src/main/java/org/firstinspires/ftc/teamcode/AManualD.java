@@ -36,7 +36,7 @@ public class AManualD extends LinearOpMode
         lift();
         shoot();
         power();
-        //capBall();
+        push();
         robot.waitForTick(40);
     }
 
@@ -211,5 +211,16 @@ public class AManualD extends LinearOpMode
             robot.cannonMotor.setPower(0);
             countShoot--;
         }
+    }
+
+    private void push(){
+        if(gamepad1.left_trigger==1)
+            robot.pusherOne.setPosition(.75);
+        else
+            robot.pusherOne.setPosition(.5);
+        if(gamepad1.right_trigger==1)
+            robot.pusherTwo.setPosition(.75);
+        else
+            robot.pusherTwo.setPosition(.5);
     }
 }

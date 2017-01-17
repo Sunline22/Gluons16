@@ -19,6 +19,8 @@ public class Hardware {
     //public DcMotor capBallLift = null;
 
     public Servo spinner = null;
+    public Servo pusherOne = null;
+    public Servo pusherTwo = null;
 
     public ModernRoboticsI2cRangeSensor mainSensor = null;
     public ModernRoboticsI2cColorSensor beaconColour = null;
@@ -49,7 +51,7 @@ public class Hardware {
 
         SetMotorInitMode();
 
-        InitSpinner();
+        InitServos();
 
         InitSensors();
     }
@@ -58,10 +60,16 @@ public class Hardware {
         //mainSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "mainSensor");
     }
 
-    private void InitSpinner() {
+    private void InitServos() {
         spinner = hwMap.servo.get("spinner");
         spinner.setPosition(0.5);
         spinner.setDirection(Servo.Direction.FORWARD);
+        pusherOne = hwMap.servo.get("pusherOne");
+        pusherOne.setDirection(Servo.Direction.FORWARD);
+        pusherOne.setPosition(.5);
+        pusherTwo = hwMap.servo.get("pusherTwo");
+        pusherTwo.setDirection(Servo.Direction.REVERSE);
+        pusherTwo.setPosition(.5);
     }
 
     private void SetMotorInitMode() {
