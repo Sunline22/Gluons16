@@ -187,11 +187,11 @@ public class AManualD extends LinearOpMode
             liftState = -1;
 
         if (liftState == 1)
-            robot.lift.setPosition(.1);
+            robot.lift.setPower(.75);
         else if (liftState == -1)
-            robot.lift.setPosition(.9);
+            robot.lift.setPower(-.75);
         else
-            robot.lift.setPosition(.5);
+            robot.lift.setPower(0);
     }
 
     private void shoot()
