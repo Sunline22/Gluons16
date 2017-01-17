@@ -15,10 +15,10 @@ public class Hardware {
     public DcMotor backLeftMotor    = null;
     public DcMotor backRightMotor   = null;
     public DcMotor cannonMotor   = null;
+    public DcMotor lift = null;
     //public DcMotor capBallLift = null;
 
     public Servo spinner = null;
-    public Servo lift = null;
 
     public ModernRoboticsI2cRangeSensor mainSensor = null;
     public ModernRoboticsI2cColorSensor beaconColour = null;
@@ -51,19 +51,11 @@ public class Hardware {
 
         InitSpinner();
 
-        InitLift();
-
         InitSensors();
     }
 
     private void InitSensors(){
         //mainSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "mainSensor");
-    }
-
-    private void InitLift() {
-        lift = hwMap.servo.get("lift");
-        lift.setPosition(0.5);
-        lift.setDirection(Servo.Direction.REVERSE);
     }
 
     private void InitSpinner() {
@@ -78,6 +70,7 @@ public class Hardware {
         backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         cannonMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //capBallLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
@@ -87,6 +80,7 @@ public class Hardware {
         backRightMotor.setPower(0);
         backLeftMotor.setPower(0);
         cannonMotor.setPower(0);
+        lift.setPower(0);
         //capBallLift.setPower(0);
     }
 
@@ -96,6 +90,7 @@ public class Hardware {
         backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
         backRightMotor.setDirection(DcMotor.Direction.REVERSE);
         cannonMotor.setDirection(DcMotor.Direction.REVERSE);
+        lift.setDirection(DcMotor.Direction.REVERSE);
         //capBallLift.setDirection(DcMotor.Direction.FORWARD);
     }
 
@@ -105,6 +100,7 @@ public class Hardware {
         backLeftMotor = hwMap.dcMotor.get("backLeftMotor");
         backRightMotor = hwMap.dcMotor.get("backRightMotor");
         cannonMotor = hwMap.dcMotor.get("cannonMotor");
+        lift = hwMap.dcMotor.get("lift");
         //capBallLift      =  hwMap.dcMotor.get("capBallLift");
     }
 
