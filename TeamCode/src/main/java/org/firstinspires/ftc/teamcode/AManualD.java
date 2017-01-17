@@ -52,7 +52,7 @@ public class AManualD extends LinearOpMode
             shootPow-=.025;
             countShootChange = 5;
         }
-        shootPow = ((double)((int)(shootPow*100)))/100;
+        shootPow = Math.round(shootPow*100)/100;
         countShootChange--;
     }
 
