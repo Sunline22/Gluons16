@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Created by Sam on 16-Dec-16.
  */
 
-public class AutoRedAlliance extends LinearOpMode
+public class BasicAutonomous extends LinearOpMode
 {
     Hardware robot = new Hardware();
     private ElapsedTime stepTime = new ElapsedTime(), fullTime = new ElapsedTime();
