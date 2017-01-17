@@ -14,19 +14,19 @@ public class AutoRedAlliance extends LinearOpMode
     int Colour1, Colour2;
 
     public void runOpMode() throws InterruptedException {
+        waitForStart();
+        robot.frontLeftMotor.setPower(.9);
+        robot.backLeftMotor.setPower(.9);
+        robot.frontRightMotor.setPower(.9);
+        robot.backRightMotor.setPower(.9);
         while (opModeIsActive() && (stepTime.seconds() < 3.0)) {
-            robot.frontLeftMotor.setPower(.9);
-            robot.backLeftMotor.setPower(.9);
-            robot.frontRightMotor.setPower(.7);
-            robot.backRightMotor.setPower(.7);
+            idle();
         }
-        while(color()){
+        robot.frontLeftMotor.setPower(0);
+        robot.backLeftMotor.setPower(0);
+        robot.frontRightMotor.setPower(0);
+        robot.backRightMotor.setPower(0);
 
-        }
-    }
-    public boolean color(){
-        //while(robot.beaconColour.blue >|| robot.beaconColour.red)
-        return true;
     }
 
 }
