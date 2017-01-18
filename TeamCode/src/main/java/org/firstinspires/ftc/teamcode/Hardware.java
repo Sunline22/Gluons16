@@ -66,10 +66,10 @@ public class Hardware {
         spinner.setDirection(Servo.Direction.FORWARD);
         pusherOne = hwMap.servo.get("pusherOne");
         pusherOne.setDirection(Servo.Direction.FORWARD);
-        pusherOne.setPosition(.5);
+        pusherOne.setPosition(.75);
         pusherTwo = hwMap.servo.get("pusherTwo");
         pusherTwo.setDirection(Servo.Direction.REVERSE);
-        pusherTwo.setPosition(.5);
+        pusherTwo.setPosition(.75);
     }
 
     private void SetMotorInitMode() {

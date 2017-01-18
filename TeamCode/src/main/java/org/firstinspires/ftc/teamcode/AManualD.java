@@ -215,12 +215,12 @@ public class AManualD extends LinearOpMode
 
     private void push(){
         if(gamepad1.left_trigger==1)
+            robot.pusherOne.setPosition(1.0);
+        else
             robot.pusherOne.setPosition(.75);
-        else
-            robot.pusherOne.setPosition(.5);
         if(gamepad1.right_trigger==1)
-            robot.pusherTwo.setPosition(.75);
+            robot.pusherTwo.setPosition(1.0);
         else
-            robot.pusherTwo.setPosition(.5);
+            robot.pusherTwo.setPosition(.75);
     }
 }
