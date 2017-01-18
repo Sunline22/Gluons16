@@ -97,7 +97,7 @@ public class Hardware {
         frontRightMotor.setDirection(DcMotor.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
         backRightMotor.setDirection(DcMotor.Direction.REVERSE);
-        cannonMotor.setDirection(DcMotor.Direction.REVERSE);
+        cannonMotor.setDirection(DcMotor.Direction.FORWARD);
         lift.setDirection(DcMotor.Direction.REVERSE);
         //capBallLift.setDirection(DcMotor.Direction.FORWARD);
     }
