@@ -64,12 +64,6 @@ public class Hardware {
         spinner = hwMap.servo.get("spinner");
         spinner.setPosition(0.5);
         spinner.setDirection(Servo.Direction.FORWARD);
-        pusherOne = hwMap.servo.get("pusherOne");
-        pusherOne.setDirection(Servo.Direction.FORWARD);
-        pusherOne.setPosition(.75);
-        pusherTwo = hwMap.servo.get("pusherTwo");
-        pusherTwo.setDirection(Servo.Direction.REVERSE);
-        pusherTwo.setPosition(.75);
     }
 
     private void SetMotorInitMode() {
@@ -93,11 +87,11 @@ public class Hardware {
     }
 
     private void InitMotorsDirection() {
-        frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+        frontLeftMotor.setDirection(DcMotor.Direction.FORWARD);
         frontRightMotor.setDirection(DcMotor.Direction.REVERSE);
-        backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+        backLeftMotor.setDirection(DcMotor.Direction.FORWARD);
         backRightMotor.setDirection(DcMotor.Direction.REVERSE);
-        cannonMotor.setDirection(DcMotor.Direction.FORWARD);
+        cannonMotor.setDirection(DcMotor.Direction.REVERSE);
         lift.setDirection(DcMotor.Direction.REVERSE);
         //capBallLift.setDirection(DcMotor.Direction.FORWARD);
     }

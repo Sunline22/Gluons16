@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp(name="Linear Dirver TeleOp",group="TeleOp")
+@TeleOp(name="Linear Driver TeleOp",group="TeleOp")
 
 //test the booty
 
@@ -13,7 +13,7 @@ public class AManualD extends LinearOpMode
 {
     Hardware robot = new Hardware();
     private int collectState = 0, liftState = 0, countShoot = 0, countShootChange = 0;
-    private double shootPow = .4;
+    private double shootPow = .65;
     private boolean shootTog = false;
 
     public void runOpMode() throws InterruptedException
@@ -34,9 +34,8 @@ public class AManualD extends LinearOpMode
         drive();
         collect();
         lift();
-        shoot();
         power();
-        push();
+        shoot();
         robot.waitForTick(40);
     }
 
@@ -52,7 +51,7 @@ public class AManualD extends LinearOpMode
             shootPow-=.025;
             countShootChange = 5;
         }
-        shootPow = Math.round(shootPow*100)/100;
+        //shootPow = Math.round(shootPow*100)/100;
         countShootChange--;
     }
 
@@ -211,16 +210,5 @@ public class AManualD extends LinearOpMode
             robot.cannonMotor.setPower(0);
             countShoot--;
         }
-    }
-
-    private void push(){
-        if(gamepad1.left_trigger==1)
-            robot.pusherOne.setPosition(1.0);
-        else
-            robot.pusherOne.setPosition(.75);
-        if(gamepad1.right_trigger==1)
-            robot.pusherTwo.setPosition(1.0);
-        else
-            robot.pusherTwo.setPosition(.75);
     }
 }
