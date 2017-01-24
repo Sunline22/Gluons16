@@ -87,6 +87,8 @@ public class Hardware {
         InitServos();
 
         InitSensors();
+
+        cannonMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
     }
 
     private void InitSensors() {
