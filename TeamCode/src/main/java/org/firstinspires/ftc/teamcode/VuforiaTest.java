@@ -14,11 +14,18 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefau
 
 /**
  * Created by Sam on 23-Jan-17.
+ *
+ *
+ *
+ *
+ * Currently Programmed for Blue
+ *
+ *
+ *
  */
 
 
-@Autonomous(name = "Basic Autonomous", group = "Autonomous")
-
+@Autonomous(name = "Vuforia", group = "Autonomous")
 public class VuforiaTest extends LinearOpMode {
     Hardware robot = new Hardware();
     private ElapsedTime runTime = new ElapsedTime();
@@ -33,6 +40,10 @@ public class VuforiaTest extends LinearOpMode {
         VuforiaTrackableDefaultListener wheels = (VuforiaTrackableDefaultListener) robot.beacons.get(0).getListener();
 
         robot.beacons.activate();
+
+
+        while(opModeIsActive())
+          vuforiaLocation();
 
         changeDriveMode(DcMotor.RunMode.RUN_USING_ENCODER);
         drive(0.2);
@@ -87,7 +98,6 @@ public class VuforiaTest extends LinearOpMode {
         }
         drive(0);
     }
-
     private void changeDriveMode(DcMotor.RunMode x){
         robot.frontLeftMotor.setMode(x);
         robot.frontRightMotor.setMode(x);
@@ -107,6 +117,22 @@ public class VuforiaTest extends LinearOpMode {
         robot.frontRightMotor.setPower(-power);
         robot.backLeftMotor.setPower(power);
         robot.backRightMotor.setPower(-power);
+    }
+    private void colorpusher() throws InterruptedException{
+        runTime.reset();
+        while(opModeIsActive() && runTime.seconds()<0.2) {
+            drive(.2);
+            idle();
+        }
+        runTime.reset();
+        while(opModeIsActive() && runTime.seconds()<0.2) {
+            drive(-.2);
+            idle();
+        }
+        drive(0);
+        if(robot.beaconSensor.blue() < robot.beaconSensor.red()){
+            colorpusher();
+        }
     }
 
     private void vuforiaLocation() {

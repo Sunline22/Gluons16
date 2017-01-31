@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsAnalogOpticalDistanceSensor;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -25,12 +26,12 @@ public class Hardware {
     //public DcMotor capBallLift = null;
 
     public Servo spinner = null;
-    public Servo pusherOne = null;
-    public Servo pusherTwo = null;
 
     public ModernRoboticsI2cRangeSensor mainSensor = null;
     public ModernRoboticsI2cColorSensor beaconColour = null;
     public ModernRoboticsAnalogOpticalDistanceSensor beaconStrip = null;
+
+    public ColorSensor beaconSensor = null;
 
     //public static final double driveForwardPower    =  0.45 ;
     //public static final double driveBackwardPower  = -0.45 ;
@@ -72,10 +73,11 @@ public class Hardware {
         beacons.get(0).setName("Wheels");
         beacons.get(1).setName("Tools");
         beacons.get(2).setName("Lego");
-        beacons.get(3).setName("Gears");
+          beacons.get(3).setName("Gears");
     }
 
-    private void InitComponents() {
+  private void InitComponents() {
+
         GetMotors();
 
         InitMotorsDirection();
@@ -86,13 +88,16 @@ public class Hardware {
 
         InitServos();
 
-        InitSensors();
+        //InitSensors();
 
         cannonMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
     }
 
     private void InitSensors() {
         //mainSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "mainSensor");
+        beaconSensor = hwMap.colorSensor.get("beacon");
+        beaconSensor.enableLed(false);
+
     }
 
     private void InitServos() {

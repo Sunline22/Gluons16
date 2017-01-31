@@ -10,7 +10,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 @Autonomous(name="Basic Autonomous",group="Autonomous")
-
 public class BasicAutonomous extends LinearOpMode
 {
     Hardware robot = new Hardware();
