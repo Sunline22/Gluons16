@@ -23,7 +23,6 @@ public class Hardware {
     public DcMotor backRightMotor = null;
     public DcMotor cannonMotor = null;
     public DcMotor lift = null;
-    //public DcMotor capBallLift = null;
 
     public Servo spinner = null;
 
@@ -32,9 +31,6 @@ public class Hardware {
     public ModernRoboticsAnalogOpticalDistanceSensor beaconStrip = null;
 
     public ColorSensor beaconSensor = null;
-
-    //public static final double driveForwardPower    =  0.45 ;
-    //public static final double driveBackwardPower  = -0.45 ;
 
     public VuforiaLocalizer vuforia = null;
     VuforiaTrackables beacons = null;
@@ -86,9 +82,9 @@ public class Hardware {
 
         SetMotorInitMode();
 
-        InitServos();
+       InitServos();
 
-        //InitSensors();
+        InitSensors();
 
         cannonMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
     }

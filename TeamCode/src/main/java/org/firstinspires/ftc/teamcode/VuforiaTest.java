@@ -41,10 +41,6 @@ public class VuforiaTest extends LinearOpMode {
 
         robot.beacons.activate();
 
-
-        while(opModeIsActive())
-          vuforiaLocation();
-
         changeDriveMode(DcMotor.RunMode.RUN_USING_ENCODER);
         drive(0.2);
 
