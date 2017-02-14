@@ -5,6 +5,7 @@ import android.transition.ChangeBounds;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
@@ -26,7 +27,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefau
 
 
 @Autonomous(name = "Vuforia", group = "Autonomous")
-public class VuforiaTest extends LinearOpMode {
+public class VuforiaBlue extends LinearOpMode {
     Hardware robot = new Hardware();
     private ElapsedTime runTime = new ElapsedTime();
 
@@ -37,10 +38,18 @@ public class VuforiaTest extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
+        beaconNav();
+        colorpusher();
+        beaconNav();
+        colorpusher();
+    }
+
+    private void beaconNav() throws InterruptedException {
         VuforiaTrackableDefaultListener wheels = (VuforiaTrackableDefaultListener) robot.beacons.get(0).getListener();
 
         robot.beacons.activate();
 
+        changeDriveMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         changeDriveMode(DcMotor.RunMode.RUN_USING_ENCODER);
         drive(0.2);
 
@@ -55,12 +64,12 @@ public class VuforiaTest extends LinearOpMode {
         VectorF angles = anglesFromTarget(wheels);
         VectorF trans = navOffWall(wheels.getPose().getTranslation(), Math.toDegrees(angles.get(0)) - 90, new VectorF(500, 0, 0));
 
-        if (trans.get(0) > 0)
-            turn(.05);
-        else
-            turn(-.05);
-
         do{
+            if (trans.get(0) > 0)
+                turn(.05);
+            else
+                turn(-.05);
+
             if(wheels.getPose() != null)
                 trans = navOffWall(wheels.getPose().getTranslation(), Math.toDegrees(angles.get(0)) - 90, new VectorF(500, 0, 0));
             idle();
@@ -94,6 +103,7 @@ public class VuforiaTest extends LinearOpMode {
         }
         drive(0);
     }
+
     private void changeDriveMode(DcMotor.RunMode x){
         robot.frontLeftMotor.setMode(x);
         robot.frontRightMotor.setMode(x);
@@ -109,10 +119,10 @@ public class VuforiaTest extends LinearOpMode {
     }
 
     private void turn(double power){
-        robot.frontLeftMotor.setPower(power);
-        robot.frontRightMotor.setPower(-power);
-        robot.backLeftMotor.setPower(power);
-        robot.backRightMotor.setPower(-power);
+        robot.frontLeftMotor.setPower(-power);
+        robot.frontRightMotor.setPower(power);
+        robot.backLeftMotor.setPower(-power);
+        robot.backRightMotor.setPower(power);
     }
     private void colorpusher() throws InterruptedException{
         runTime.reset();
