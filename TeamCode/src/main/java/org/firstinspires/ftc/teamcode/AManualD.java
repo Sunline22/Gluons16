@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
 
@@ -79,38 +80,37 @@ public class AManualD extends LinearOpMode
         if (leftStickVert <= .025 && rightStickVert <= .025)
             dPad();
         else
-        {
             motorPow(leftStickVert, rightStickVert);
-        }
     }
 
-    private String joyDir(double leftStickVert, double rightStickVert) {
-        String joyDirTel = "";
+    private void joyDir(double leftStickVert, double rightStickVert) {
         if (leftStickVert > 0)
         {
             robot.frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
             robot.backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-            joyDirTel += "Left Forward ";
         }
         else if (leftStickVert < 0)
         {
             robot.frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
             robot.backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-            joyDirTel += "Left Backwards ";
         }
         if (rightStickVert > 0)
         {
             robot.frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
             robot.backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-            joyDirTel += "Right Forward ";
         }
         else if (rightStickVert < 0)
         {
             robot.frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
             robot.backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-            joyDirTel += "Right Backwards ";
         }
-        return joyDirTel;
+    }
+
+    private void motorDirection(DcMotor.Direction dir){
+        robot.frontLeftMotor.setDirection(dir);
+        robot.backLeftMotor.setDirection(dir);
+        robot.frontRightMotor.setDirection(dir.equals(DcMotor.Direction.FORWARD)?DcMotor.Direction.REVERSE:DcMotor.Direction.FORWARD);
+        robot.backRightMotor.setDirection(dir.equals(DcMotor.Direction.FORWARD)?DcMotor.Direction.REVERSE:DcMotor.Direction.FORWARD);
     }
 
     private void dPad() {
@@ -118,37 +118,20 @@ public class AManualD extends LinearOpMode
             telemetry.addData("Say", "Forward");
             telemetry.update();
 
-            robot.frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-            robot.backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-            robot.frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-            robot.backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+            motorDirection(DcMotor.Direction.FORWARD);
 
-            robot.frontLeftMotor.setPower(.5);
-            robot.backLeftMotor.setPower(.5);
-            robot.frontRightMotor.setPower(.5);
-            robot.backRightMotor.setPower(.5);
-        } else if (gamepad1.dpad_down)
-        {
+            motorPow(.5);
+
+        } else if (gamepad1.dpad_down) {
             telemetry.addData("Say", "Backward");
             telemetry.update();
 
-            robot.frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-            robot.backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-            robot.frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-            robot.backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+            motorDirection(DcMotor.Direction.REVERSE);
 
-            robot.frontLeftMotor.setPower(.5);
-            robot.backLeftMotor.setPower(.5);
-            robot.frontRightMotor.setPower(.5);
-            robot.backRightMotor.setPower(.5);
+            motorPow(.5);
         }
         else
-        {
-            robot.frontLeftMotor.setPower(0);
-            robot.backLeftMotor.setPower(0);
-            robot.frontRightMotor.setPower(0);
-            robot.backRightMotor.setPower(0);
-        }
+            motorPow(0);
     }
 
     private void motorPow(double leftStickVert, double rightStickVert)
@@ -157,6 +140,13 @@ public class AManualD extends LinearOpMode
         robot.backLeftMotor.setPower(leftStickVert);
         robot.frontRightMotor.setPower(rightStickVert);
         robot.backRightMotor.setPower(rightStickVert);
+    }
+
+    private void motorPow(double pow){
+        robot.frontLeftMotor.setPower(pow);
+        robot.backLeftMotor.setPower(pow);
+        robot.frontRightMotor.setPower(pow);
+        robot.backRightMotor.setPower(pow);
     }
 
     private void collect()
