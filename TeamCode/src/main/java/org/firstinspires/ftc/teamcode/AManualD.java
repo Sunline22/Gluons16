@@ -2,7 +2,9 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name = "Linear Driver TeleOp", group = "TeleOp")
@@ -172,16 +174,22 @@ public class AManualD extends LinearOpMode {
     }
 
     private void shoot() {
-        if (gamepad2.x && countShoot <= 0) {
-            countShoot = 20;
-            shootTog = !shootTog;
-        }
-        if (shootTog) {
+        final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
+        final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
+        final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
+        final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+                (WHEEL_DIAMETER_INCHES * 3.1415);
+        robot.cannonMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.cannonMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        if(opModeIsActive()){
+            int motorTarget = robot.cannonMotor.getCurrentPosition() + (int)(12 * COUNTS_PER_INCH);
+            robot.cannonMotor.setTargetPosition(motorTarget);
+            robot.cannonMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            ElapsedTime runtime = new ElapsedTime();
+            runtime.reset();
             robot.cannonMotor.setPower(shootPow);
-            countShoot--;
-        } else {
-            robot.cannonMotor.setPower(0);
-            countShoot--;
+            if(robot.cannonMotor.getCurrentPosition()<=motorTarget)
+                robot.cannonMotor.setPower(0);
         }
     }
 }
