@@ -13,9 +13,20 @@ import com.qualcomm.robotcore.util.Range;
 
 public class AManualD extends LinearOpMode {
     Hardware robot = new Hardware();
-    private int collectState = 0, liftState = 0, countShoot = 0, countShootChange = 0;
+    private int collectState = 0, liftState = 0, countShootChange = 0;
     private double shootPow = .65;
     private boolean shootTog = false;
+    pos p = pos.in;
+
+    private enum pos{
+        neutral(.75) , in(1);
+
+        private final double value;
+
+        pos(double value){ this.value = value; }
+
+        double getValue(){ return value; }
+    }
 
     public void runOpMode() throws InterruptedException {
 
@@ -142,19 +153,14 @@ public class AManualD extends LinearOpMode {
     }
 
     private void collect() {
-        if (gamepad2.b)
-            collectState = 0;
-        else if (gamepad2.right_bumper)
-            collectState = 1;
-        else if (gamepad2.left_bumper)
-            collectState = -1;
-
-        if (collectState == 1)
-            robot.spinner.setPosition(.1);
-        else if (collectState == -1)
-            robot.spinner.setPosition(.9);
-        else
-            robot.spinner.setPosition(.5);
+        if(p == pos.in && gamepad2.y) {
+            robot.spinner.setPosition(p.getValue());
+            p = pos.neutral;
+        }
+        else if (p == pos.neutral && gamepad2.y) {
+            robot.spinner.setPosition(p.getValue());
+            p = pos.in;
+        }
     }
 
     private void lift() {
@@ -174,15 +180,14 @@ public class AManualD extends LinearOpMode {
     }
 
     private void shoot() {
-        final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
-        final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
-        final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
-        final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
-                (WHEEL_DIAMETER_INCHES * 3.1415);
+        final double countsPerMotorRev = 1440 ;
+        final double driveGearReduction = 2.0 ;
+        final double wheelDiameterInches = 1.75 ;
+        final double countsPerInch = (countsPerMotorRev * driveGearReduction) / (wheelDiameterInches * 3.1415);
         robot.cannonMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.cannonMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         if(opModeIsActive()){
-            int motorTarget = robot.cannonMotor.getCurrentPosition() + (int)(12 * COUNTS_PER_INCH);
+            int motorTarget = robot.cannonMotor.getCurrentPosition() + (int)(12 * countsPerInch);
             robot.cannonMotor.setTargetPosition(motorTarget);
             robot.cannonMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             ElapsedTime runtime = new ElapsedTime();
