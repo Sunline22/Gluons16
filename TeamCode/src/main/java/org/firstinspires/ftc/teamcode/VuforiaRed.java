@@ -35,14 +35,49 @@ public class VuforiaRed extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
-        beaconNav();
+        shootFirst();
+        beaconNav(3);
         colorpusher();
-        beaconNav();
+        beaconNav(4);
         colorpusher();
     }
 
-    private void beaconNav() throws InterruptedException {
-        VuforiaTrackableDefaultListener wheels = (VuforiaTrackableDefaultListener) robot.beacons.get(0).getListener();
+    private void shootFirst() throws InterruptedException {
+        drive(-.9);
+
+        runTime.reset();
+
+        while (opModeIsActive() && (runTime.seconds() < 0.8)) {
+            telemetry.addData("RunTime: ", runTime);
+            telemetry.addData("RunGoal: ", 0.8);
+            telemetry.update();
+            idle();
+        }
+
+        drive(0);
+
+        runTime.reset();
+        while (opModeIsActive() && (runTime.seconds() < 6.0)) {
+            telemetry.addData("RunTime: ", runTime);
+            telemetry.addData("RunGoal: ", 4.0);
+            telemetry.update();
+
+            robot.cannonMotor.setPower(.575);
+
+            if(runTime.seconds()>1.9 && runTime.seconds()<2.0)
+                robot.lift.setPower(.5);
+            else if((runTime.seconds()>3.8 && runTime.seconds()<6.0))
+                robot.lift.setPower(.5);
+            else
+                robot.lift.setPower(0);
+
+            idle();
+        }
+
+    }
+
+    private void beaconNav(int t) throws InterruptedException {
+        VuforiaTrackableDefaultListener target = (VuforiaTrackableDefaultListener) robot.beacons.get(t).getListener();
 
         robot.beacons.activate();
 
@@ -50,7 +85,7 @@ public class VuforiaRed extends LinearOpMode {
         changeDriveMode(DcMotor.RunMode.RUN_USING_ENCODER);
         drive(0.2);
 
-        while (opModeIsActive() && wheels.getRawPose() == null) {
+        while (opModeIsActive() && target.getRawPose() == null) {
             idle();
         }
 
@@ -58,8 +93,8 @@ public class VuforiaRed extends LinearOpMode {
 
         //Analyze Beacon
 
-        VectorF angles = anglesFromTarget(wheels);
-        VectorF trans = navOffWall(wheels.getPose().getTranslation(), Math.toDegrees(angles.get(0)) - 90, new VectorF(500, 0, 0));
+        VectorF angles = anglesFromTarget(target);
+        VectorF trans = navOffWall(target.getPose().getTranslation(), Math.toDegrees(angles.get(0)) - 90, new VectorF(500, 0, 0));
 
         do{
             if (trans.get(0) > 0)
@@ -67,8 +102,8 @@ public class VuforiaRed extends LinearOpMode {
             else
                 turn(-.05);
 
-            if(wheels.getPose() != null)
-                trans = navOffWall(wheels.getPose().getTranslation(), Math.toDegrees(angles.get(0)) - 90, new VectorF(500, 0, 0));
+            if(target.getPose() != null)
+                trans = navOffWall(target.getPose().getTranslation(), Math.toDegrees(angles.get(0)) - 90, new VectorF(500, 0, 0));
             idle();
         } while (opModeIsActive() && Math.abs(trans.get(0)) > 30);
 
@@ -88,9 +123,9 @@ public class VuforiaRed extends LinearOpMode {
 
         changeDriveMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        while(opModeIsActive() && wheels.getPose() == null || Math.abs(wheels.getPose().getTranslation().get(0)) > 10){
-            if (wheels.getPose() != null) {
-                if(wheels.getPose().getTranslation().get(0) > 0)
+        while(opModeIsActive() && target.getPose() == null || Math.abs(target.getPose().getTranslation().get(0)) > 10){
+            if (target.getPose() != null) {
+                if(target.getPose().getTranslation().get(0) > 0)
                     turn(-.3);
                 else
                     turn(.3);
