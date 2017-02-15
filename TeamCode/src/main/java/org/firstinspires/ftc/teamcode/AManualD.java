@@ -193,7 +193,7 @@ public class AManualD extends LinearOpMode {
             ElapsedTime runtime = new ElapsedTime();
             runtime.reset();
             robot.cannonMotor.setPower(shootPow);
-            if(robot.cannonMotor.getCurrentPosition()<=motorTarget)
+            if(robot.cannonMotor.getCurrentPosition()>=motorTarget)
                 robot.cannonMotor.setPower(0);
         }
     }
