@@ -43,10 +43,7 @@ public class VuforiaRed extends LinearOpMode {
     }
 
     private void shootFirst() throws InterruptedException {
-        robot.frontLeftMotor.setPower(-.9);
-        robot.backLeftMotor.setPower(-.9);
-        robot.frontRightMotor.setPower(-.9);
-        robot.backRightMotor.setPower(-.9);
+        drive(-.9);
 
         runTime.reset();
 
@@ -57,10 +54,7 @@ public class VuforiaRed extends LinearOpMode {
             idle();
         }
 
-        robot.frontLeftMotor.setPower(0);
-        robot.backLeftMotor.setPower(0);
-        robot.frontRightMotor.setPower(0);
-        robot.backRightMotor.setPower(0);
+        drive(0);
 
         runTime.reset();
         while (opModeIsActive() && (runTime.seconds() < 6.0)) {
