@@ -23,7 +23,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefau
  */
 
 
-@Autonomous(name = "Vuforia", group = "Autonomous")
+@Autonomous(name = "VuforiaRed", group = "Autonomous")
 public class VuforiaRed extends LinearOpMode {
     Hardware robot = new Hardware();
     private ElapsedTime runTime = new ElapsedTime();
