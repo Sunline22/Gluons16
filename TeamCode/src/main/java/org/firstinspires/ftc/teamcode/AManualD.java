@@ -153,11 +153,11 @@ public class AManualD extends LinearOpMode {
     }
 
     private void collect() {
-        if(p == pos.in && gamepad2.y) {
+        if(p == pos.in && gamepad2.b) {
             robot.spinner.setPosition(p.getValue());
             p = pos.neutral;
         }
-        else if (p == pos.neutral && gamepad2.y) {
+        else if (p == pos.neutral && gamepad2.b) {
             robot.spinner.setPosition(p.getValue());
             p = pos.in;
         }
@@ -186,7 +186,7 @@ public class AManualD extends LinearOpMode {
         final double countsPerInch = (countsPerMotorRev * driveGearReduction) / (wheelDiameterInches * 3.1415);
         robot.cannonMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.cannonMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        if(opModeIsActive()){
+        if(opModeIsActive() && gamepad2.x){
             int motorTarget = robot.cannonMotor.getCurrentPosition() + (int)(12 * countsPerInch);
             robot.cannonMotor.setTargetPosition(motorTarget);
             robot.cannonMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
