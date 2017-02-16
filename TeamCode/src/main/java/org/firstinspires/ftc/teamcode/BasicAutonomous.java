@@ -56,7 +56,7 @@ public class BasicAutonomous extends LinearOpMode
 
         robot.cannonMotor.setTargetPosition(motorTarget);
         robot.cannonMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
+        robot.cannonMotor.setMaxSpeed(robot.cannonMotor.getMaxSpeed()/2);
         robot.cannonMotor.setPower(.575);
 
         while (opModeIsActive() && (runTime.seconds() < 6.0)) {
