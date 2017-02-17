@@ -16,6 +16,7 @@ public class AManualD extends LinearOpMode {
     private int collectState = 0, liftState = 0, countShootChange = 0;
     private double shootPow = .65;
     private boolean shootTog = false;
+    int motorTarget = robot.cannonMotor.getCurrentPosition();
     pos p = pos.in;
 
     private enum pos{
@@ -33,6 +34,8 @@ public class AManualD extends LinearOpMode {
         robot.init(hardwareMap);
         telemetry.addData("Say", "Good morning");
         telemetry.update();
+        collect();
+        lift();
         waitForStart();
         while (opModeIsActive()) {
             control();
@@ -40,16 +43,41 @@ public class AManualD extends LinearOpMode {
     }
 
     public void control() throws java.lang.InterruptedException {
-        telem();
-        drive();
-        collect();
-        lift();
-        power();
-        shoot();
+        //telem();
+        try {
+            drive();
+        } catch (NullPointerException e){
+            telemetry.addData("Say", "Exception caught in drive method.");
+            telemetry.update();
+        }
+        try {
+            collect();
+        } catch (NullPointerException e){
+            telemetry.addData("Say", "Exception caught in collect method.");
+            telemetry.update();
+        }
+        try {
+            lift();
+        } catch (NullPointerException e){
+            telemetry.addData("Say", "Exception caught in lift method.");
+            telemetry.update();
+        }
+        try {
+            power();
+        } catch (NullPointerException e){
+            telemetry.addData("Say", "Exception caught in power method.");
+            telemetry.update();
+        }
+        try {
+            shoot();
+        } catch (NullPointerException e){
+            telemetry.addData("Say", "Exception caught in shoot method.");
+            telemetry.update();
+        }
         robot.waitForTick(40);
     }
 
-    private void power() {
+    private void power() throws NullPointerException {
         if (gamepad1.y && countShootChange <= 0 && shootPow + .05 < 1.0) {
             shootPow += .025;
             countShootChange = 5;
@@ -61,7 +89,7 @@ public class AManualD extends LinearOpMode {
         countShootChange--;
     }
 
-    private void telem() {
+    private void telem() throws NullPointerException{
         telemetry.clear();
         telemetry.addData("WidowMaker", ((shootTog) ? "On" : "Off") + " PL: " + shootPow);
         telemetry.addData("Lift", (liftState == 1) ? "Up" : (liftState == -1) ? "Down" : "Off");
@@ -71,7 +99,7 @@ public class AManualD extends LinearOpMode {
         telemetry.update();
     }
 
-    private void drive() {
+    private void drive() throws NullPointerException{
         double leftStickVert = Range.clip(gamepad1.left_stick_y, -1.0, 1.0);
         double rightStickVert = Range.clip(gamepad1.right_stick_y, -1.0, 1.0);
 
@@ -87,7 +115,7 @@ public class AManualD extends LinearOpMode {
         }
     }
 
-    private String joyDir(double leftStickVert, double rightStickVert) {
+    private String joyDir(double leftStickVert, double rightStickVert) throws NullPointerException{
         String joyDirTel = "";
         if (leftStickVert > 0) {
             robot.frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -110,7 +138,7 @@ public class AManualD extends LinearOpMode {
         return joyDirTel;
     }
 
-    private void dPad() {
+    private void dPad() throws NullPointerException{
         if (gamepad1.dpad_up) {
             telemetry.addData("Say", "Forward");
             telemetry.update();
@@ -145,14 +173,14 @@ public class AManualD extends LinearOpMode {
         }
     }
 
-    private void motorPow(double leftStickVert, double rightStickVert) {
+    private void motorPow(double leftStickVert, double rightStickVert) throws NullPointerException{
         robot.frontLeftMotor.setPower(leftStickVert);
         robot.backLeftMotor.setPower(leftStickVert);
         robot.frontRightMotor.setPower(rightStickVert);
         robot.backRightMotor.setPower(rightStickVert);
     }
 
-    private void collect() {
+    private void collect() throws NullPointerException{
         if(p == pos.in && gamepad2.b) {
             robot.spinner.setPosition(p.getValue());
             p = pos.neutral;
@@ -163,7 +191,7 @@ public class AManualD extends LinearOpMode {
         }
     }
 
-    private void lift() {
+    private void lift() throws NullPointerException{
         if (gamepad2.a)
             liftState = 0;
         else if (gamepad2.right_trigger != 0)
@@ -179,21 +207,21 @@ public class AManualD extends LinearOpMode {
             robot.lift.setPower(0);
     }
 
-    private void shoot() {
+    private void shoot() throws NullPointerException{
         final double countsPerMotorRev = 1440 ;
         final double driveGearReduction = 2.0 ;
         final double wheelDiameterInches = 1.75 ;
         final double countsPerInch = (countsPerMotorRev * driveGearReduction) / (wheelDiameterInches * 3.1415);
         robot.cannonMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.cannonMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        if(opModeIsActive() && gamepad2.x){
-            int motorTarget = robot.cannonMotor.getCurrentPosition() + (int)(12 * countsPerInch);
-            robot.cannonMotor.setTargetPosition(motorTarget);
-            robot.cannonMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            ElapsedTime runtime = new ElapsedTime();
-            runtime.reset();
-            robot.cannonMotor.setPower(shootPow);
-            if(robot.cannonMotor.getCurrentPosition()>=motorTarget)
+        if(opModeIsActive()){
+            if(gamepad2.x) {
+                motorTarget = robot.cannonMotor.getCurrentPosition() + (int)(12 * countsPerInch);
+                robot.cannonMotor.setTargetPosition(motorTarget);
+                robot.cannonMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.cannonMotor.setPower(shootPow);
+            }
+            if(robot.cannonMotor.getCurrentPosition() >= motorTarget)
                 robot.cannonMotor.setPower(0);
         }
     }
