@@ -34,9 +34,8 @@ public class AManualD extends LinearOpMode {
         robot.init(hardwareMap);
         telemetry.addData("Say", "Good morning");
         telemetry.update();
-        collect();
-        lift();
         waitForStart();
+        motorTarget = robot.cannonMotor.getCurrentPosition();
         while (opModeIsActive()) {
             control();
         }
@@ -212,17 +211,16 @@ public class AManualD extends LinearOpMode {
         final double driveGearReduction = 2.0 ;
         final double wheelDiameterInches = 1.75 ;
         final double countsPerInch = (countsPerMotorRev * driveGearReduction) / (wheelDiameterInches * 3.1415);
-        robot.cannonMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.cannonMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        if(opModeIsActive()){
-            if(gamepad2.x) {
-                motorTarget = robot.cannonMotor.getCurrentPosition() + (int)(12 * countsPerInch);
-                robot.cannonMotor.setTargetPosition(motorTarget);
-                robot.cannonMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.cannonMotor.setPower(shootPow);
-            }
-            if(robot.cannonMotor.getCurrentPosition() >= motorTarget)
-                robot.cannonMotor.setPower(0);
+        if(gamepad2.x) {
+            motorTarget = robot.cannonMotor.getCurrentPosition() + (int)(5 * countsPerInch);
+            robot.cannonMotor.setTargetPosition(motorTarget);
+            robot.cannonMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.cannonMotor.setPower(shootPow);
+        }
+        if(robot.cannonMotor.getCurrentPosition() <= motorTarget){
+            robot.cannonMotor.setPower(0);
+            robot.cannonMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.cannonMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
     }
 }

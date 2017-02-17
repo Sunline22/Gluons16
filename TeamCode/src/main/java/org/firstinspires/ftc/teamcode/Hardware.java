@@ -69,7 +69,7 @@ public class Hardware {
         beacons.get(0).setName("Wheels");
         beacons.get(1).setName("Tools");
         beacons.get(2).setName("Lego");
-          beacons.get(3).setName("Gears");
+        beacons.get(3).setName("Gears");
     }
 
   private void InitComponents() {
@@ -107,7 +107,8 @@ public class Hardware {
         frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        cannonMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        cannonMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        cannonMotor.setMaxSpeed(cannonMotor.getMaxSpeed()/2);
         lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //capBallLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
