@@ -20,7 +20,7 @@ public class AManualD extends LinearOpMode {
     pos p = pos.in;
 
     private enum pos{
-        neutral(.75) , in(1);
+        neutral(.75) , in(0);
 
         private final double value;
 
@@ -42,7 +42,7 @@ public class AManualD extends LinearOpMode {
     }
 
     public void control() throws java.lang.InterruptedException {
-        //telem();
+        telem();
         try {
             drive();
         } catch (NullPointerException e){
