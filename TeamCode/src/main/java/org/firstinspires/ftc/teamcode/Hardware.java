@@ -25,16 +25,10 @@ public class Hardware {
     public DcMotor lift = null;
 
     public Servo spinner = null;
-
-    public ModernRoboticsI2cRangeSensor mainSensor = null;
-    public ModernRoboticsI2cColorSensor beaconColour = null;
-    public ModernRoboticsAnalogOpticalDistanceSensor beaconStrip = null;
-
     public ColorSensor beaconSensor = null;
 
     public VuforiaLocalizer vuforia = null;
     VuforiaTrackables beacons = null;
-
 
     HardwareMap hwMap = null;
     private ElapsedTime period = new ElapsedTime();
@@ -82,7 +76,7 @@ public class Hardware {
 
         SetMotorInitMode();
 
-       InitServos();
+        InitServos();
 
         InitSensors();
 
@@ -90,7 +84,6 @@ public class Hardware {
     }
 
     private void InitSensors() {
-        //mainSensor = hwMap.get(ModernRoboticsI2cRangeSensor.class, "mainSensor");
         beaconSensor = hwMap.colorSensor.get("beacon");
         beaconSensor.enableLed(false);
 
@@ -98,7 +91,7 @@ public class Hardware {
 
     private void InitServos() {
         spinner = hwMap.servo.get("spinner");
-        spinner.setPosition(0.5);
+        spinner.setPosition(1.0);
         spinner.setDirection(Servo.Direction.FORWARD);
     }
 
@@ -108,9 +101,7 @@ public class Hardware {
         backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         cannonMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        cannonMotor.setMaxSpeed(cannonMotor.getMaxSpeed()/2);
         lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        //capBallLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     private void SetMotorsInitPower() {
@@ -120,7 +111,6 @@ public class Hardware {
         backLeftMotor.setPower(0);
         cannonMotor.setPower(0);
         lift.setPower(0);
-        //capBallLift.setPower(0);
     }
 
     private void InitMotorsDirection() {
@@ -130,7 +120,6 @@ public class Hardware {
         backRightMotor.setDirection(DcMotor.Direction.FORWARD);
         cannonMotor.setDirection(DcMotor.Direction.REVERSE);
         lift.setDirection(DcMotor.Direction.REVERSE);
-        //capBallLift.setDirection(DcMotor.Direction.FORWARD);
     }
 
     private void GetMotors() {
@@ -140,7 +129,6 @@ public class Hardware {
         backRightMotor = hwMap.dcMotor.get("backRightMotor");
         cannonMotor = hwMap.dcMotor.get("cannonMotor");
         lift = hwMap.dcMotor.get("lift");
-        //capBallLift      =  hwMap.dcMotor.get("capBallLift");
     }
 
     public void waitForTick(long periodMs) throws InterruptedException {

@@ -92,7 +92,10 @@ public class VuforiaBlue extends LinearOpMode {
 
         changeDriveMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         changeDriveMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        drive(0.2);
+        robot.backLeftMotor.setPower(.05);
+        robot.frontLeftMotor.setPower(.05);
+        robot.backRightMotor.setPower(.4);
+        robot.frontRightMotor.setPower(.4);
 
         while (opModeIsActive() && target.getRawPose() == null) {
             idle();

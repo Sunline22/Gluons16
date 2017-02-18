@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.robot.Robot;
 import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name = "Linear Driver TeleOp", group = "TeleOp")
@@ -13,29 +13,19 @@ import com.qualcomm.robotcore.util.Range;
 
 public class AManualD extends LinearOpMode {
     Hardware robot = new Hardware();
-    private int collectState = 0, liftState = 0, countShootChange = 0;
+    private int collectState = 0, liftState = 0, shootCount = 0;
     private double shootPow = .65;
     private boolean shootTog = false;
-    int motorTarget = robot.cannonMotor.getCurrentPosition();
-    pos p = pos.in;
-
-    private enum pos{
-        neutral(.75) , in(0);
-
-        private final double value;
-
-        pos(double value){ this.value = value; }
-
-        double getValue(){ return value; }
-    }
+    private double spinnerPos = 1.0;
+    public final int rpm = 220;
 
     public void runOpMode() throws InterruptedException {
 
         robot.init(hardwareMap);
+        robot.cannonMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         telemetry.addData("Say", "Good morning");
         telemetry.update();
         waitForStart();
-        motorTarget = robot.cannonMotor.getCurrentPosition();
         while (opModeIsActive()) {
             control();
         }
@@ -43,62 +33,25 @@ public class AManualD extends LinearOpMode {
 
     public void control() throws java.lang.InterruptedException {
         telem();
-        try {
-            drive();
-        } catch (NullPointerException e){
-            telemetry.addData("Say", "Exception caught in drive method.");
-            telemetry.update();
-        }
-        try {
-            collect();
-        } catch (NullPointerException e){
-            telemetry.addData("Say", "Exception caught in collect method.");
-            telemetry.update();
-        }
-        try {
-            lift();
-        } catch (NullPointerException e){
-            telemetry.addData("Say", "Exception caught in lift method.");
-            telemetry.update();
-        }
-        try {
-            power();
-        } catch (NullPointerException e){
-            telemetry.addData("Say", "Exception caught in power method.");
-            telemetry.update();
-        }
-        try {
-            shoot();
-        } catch (NullPointerException e){
-            telemetry.addData("Say", "Exception caught in shoot method.");
-            telemetry.update();
-        }
+        drive();
+        collect();
+        lift();
+        shoot();
         robot.waitForTick(40);
     }
 
-    private void power() throws NullPointerException {
-        if (gamepad1.y && countShootChange <= 0 && shootPow + .05 < 1.0) {
-            shootPow += .025;
-            countShootChange = 5;
-        } else if (gamepad1.x && countShootChange <= 0 && shootPow - .05 >= 0) {
-            shootPow -= .025;
-            countShootChange = 5;
-        }
-        //shootPow = Math.round(shootPow*100)/100;
-        countShootChange--;
-    }
-
-    private void telem() throws NullPointerException{
+    private void telem() {
         telemetry.clear();
         telemetry.addData("WidowMaker", ((shootTog) ? "On" : "Off") + " PL: " + shootPow);
+        telemetry.addData("Cannon enc", robot.cannonMotor.getCurrentPosition());
         telemetry.addData("Lift", (liftState == 1) ? "Up" : (liftState == -1) ? "Down" : "Off");
-        telemetry.addData("Spinner", (collectState == 1) ? "In" : (collectState == -1) ? "Out" : "Off");
+        telemetry.addData("Spinner", (spinnerPos > .3) ? "In" : (collectState == -1) ? "Out" : "Off");
         telemetry.addData("LeftStick", gamepad1.left_stick_y);
         telemetry.addData("RightStick", gamepad1.right_stick_y);
         telemetry.update();
     }
 
-    private void drive() throws NullPointerException{
+    private void drive() throws NullPointerException {
         double leftStickVert = Range.clip(gamepad1.left_stick_y, -1.0, 1.0);
         double rightStickVert = Range.clip(gamepad1.right_stick_y, -1.0, 1.0);
 
@@ -114,7 +67,7 @@ public class AManualD extends LinearOpMode {
         }
     }
 
-    private String joyDir(double leftStickVert, double rightStickVert) throws NullPointerException{
+    private String joyDir(double leftStickVert, double rightStickVert) {
         String joyDirTel = "";
         if (leftStickVert > 0) {
             robot.frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -137,7 +90,7 @@ public class AManualD extends LinearOpMode {
         return joyDirTel;
     }
 
-    private void dPad() throws NullPointerException{
+    private void dPad() {
         if (gamepad1.dpad_up) {
             telemetry.addData("Say", "Forward");
             telemetry.update();
@@ -172,25 +125,22 @@ public class AManualD extends LinearOpMode {
         }
     }
 
-    private void motorPow(double leftStickVert, double rightStickVert) throws NullPointerException{
+    private void motorPow(double leftStickVert, double rightStickVert) {
         robot.frontLeftMotor.setPower(leftStickVert);
         robot.backLeftMotor.setPower(leftStickVert);
         robot.frontRightMotor.setPower(rightStickVert);
         robot.backRightMotor.setPower(rightStickVert);
     }
 
-    private void collect() throws NullPointerException{
-        if(p == pos.in && gamepad2.b) {
-            robot.spinner.setPosition(p.getValue());
-            p = pos.neutral;
-        }
-        else if (p == pos.neutral && gamepad2.b) {
-            robot.spinner.setPosition(p.getValue());
-            p = pos.in;
-        }
+    private void collect() {
+        if (gamepad2.right_bumper && spinnerPos < 1.0)
+            spinnerPos += .005;
+        if (gamepad2.left_bumper && spinnerPos > 1.0)
+            spinnerPos -= .005;
+        robot.spinner.setPosition(spinnerPos);
     }
 
-    private void lift() throws NullPointerException{
+    private void lift() {
         if (gamepad2.a)
             liftState = 0;
         else if (gamepad2.right_trigger != 0)
@@ -206,21 +156,21 @@ public class AManualD extends LinearOpMode {
             robot.lift.setPower(0);
     }
 
-    private void shoot() throws NullPointerException{
-        final double countsPerMotorRev = 1440 ;
-        final double driveGearReduction = 2.0 ;
-        final double wheelDiameterInches = 1.75 ;
-        final double countsPerInch = (countsPerMotorRev * driveGearReduction) / (wheelDiameterInches * 3.1415);
-        if(gamepad2.x) {
-            motorTarget = robot.cannonMotor.getCurrentPosition() + (int)(5 * countsPerInch);
-            robot.cannonMotor.setTargetPosition(motorTarget);
-            robot.cannonMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.cannonMotor.setPower(shootPow);
+    private void shoot() {
+        robot.cannonMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //robot.cannonMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        while (shootCount != 0)
+            shootCount--;
+
+        if (gamepad2.x && shootCount == 0) {
+            shootCount = 40;
+            shootTog = !shootTog;
         }
-        if(robot.cannonMotor.getCurrentPosition() <= motorTarget){
-            robot.cannonMotor.setPower(0);
-            robot.cannonMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.cannonMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        }
+
+        if (shootTog) {
+            robot.cannonMotor.setTargetPosition(1000);
+            robot.cannonMotor.setMaxSpeed(1440 * (rpm / 60));
+        } else
+            robot.cannonMotor.setTargetPosition(robot.cannonMotor.getCurrentPosition());
     }
 }
