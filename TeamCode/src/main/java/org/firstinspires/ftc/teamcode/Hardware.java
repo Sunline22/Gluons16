@@ -91,7 +91,7 @@ public class Hardware {
 
     private void InitServos() {
         spinner = hwMap.servo.get("spinner");
-        spinner.setPosition(1.0);
+        spinner.setPosition(-1.0);
         spinner.setDirection(Servo.Direction.FORWARD);
     }
 
@@ -118,7 +118,7 @@ public class Hardware {
         frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
         backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
         backRightMotor.setDirection(DcMotor.Direction.FORWARD);
-        cannonMotor.setDirection(DcMotor.Direction.REVERSE);
+        cannonMotor.setDirection(DcMotor.Direction.FORWARD);
         lift.setDirection(DcMotor.Direction.REVERSE);
     }
 

@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -10,8 +9,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 
-@Autonomous(name="Basic Autonomous",group="Autonomous")
-public class BasicAutonomous extends LinearOpMode
+@Autonomous(name="No Park Autonomous",group="Autonomous")
+public class NoParkAutonomous extends LinearOpMode
 {
     Hardware robot = new Hardware();
     private ElapsedTime runTime = new ElapsedTime();
@@ -65,7 +64,7 @@ public class BasicAutonomous extends LinearOpMode
         }
 
         robot.cannonMotor.setPower(0);
-
+/**
         robot.frontLeftMotor.setPower(-.9);
         robot.backLeftMotor.setPower(-.9);
         robot.frontRightMotor.setPower(-.9);
@@ -84,6 +83,7 @@ public class BasicAutonomous extends LinearOpMode
         robot.backLeftMotor.setPower(0);
         robot.frontRightMotor.setPower(0);
         robot.backRightMotor.setPower(0);
+ */
 
     }
 

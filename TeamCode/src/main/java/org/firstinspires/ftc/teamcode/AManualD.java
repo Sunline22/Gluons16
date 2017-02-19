@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.robot.Robot;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name = "Linear Driver TeleOp", group = "TeleOp")
@@ -13,12 +13,10 @@ import com.qualcomm.robotcore.util.Range;
 
 public class AManualD extends LinearOpMode {
     Hardware robot = new Hardware();
-    private int collectState = 0, liftState = 0, shootCount = 0;
-    private double shootPow = .65;
-    private boolean shootTog = false;
-    private double spinnerPos = 1.0;
-    public final int rpm = 220;
-
+    private int collectState = 0, liftState = 0, shootCount = 0, rpm=2550, spinCount=0, encSpeed = 0;
+    private boolean shootTog = false, spinTog = false;
+    private double spinnerPos;
+    private ElapsedTime encodercalc = new ElapsedTime();
     public void runOpMode() throws InterruptedException {
 
         robot.init(hardwareMap);
@@ -26,6 +24,7 @@ public class AManualD extends LinearOpMode {
         telemetry.addData("Say", "Good morning");
         telemetry.update();
         waitForStart();
+        spinnerPos = robot.spinner.getPosition();
         while (opModeIsActive()) {
             control();
         }
@@ -40,10 +39,23 @@ public class AManualD extends LinearOpMode {
         robot.waitForTick(40);
     }
 
+    private void calcSpeed(){
+        int val1 = 0, val2 = 0;
+        if(encodercalc.seconds() < .05)
+            val1=(int)robot.spinner.getPosition();
+        else if(encodercalc.seconds() > .95) {
+            val2 = (int) robot.spinner.getPosition();
+            encSpeed = val2 - val1;
+            encodercalc.reset();
+        }
+    }
+
     private void telem() {
+        calcSpeed();
         telemetry.clear();
-        telemetry.addData("WidowMaker", ((shootTog) ? "On" : "Off") + " PL: " + shootPow);
-        telemetry.addData("Cannon enc", robot.cannonMotor.getCurrentPosition());
+        telemetry.addData("WidowMaker", ((shootTog) ? "On" : "Off") + " rpm: " + rpm);
+        telemetry.addData("Encoder @ speed?", ((encSpeed > rpm-25 && encSpeed < rpm+25) ? "Yes" : "No"));
+        telemetry.addData("Encoder @ speed? value", encSpeed);
         telemetry.addData("Lift", (liftState == 1) ? "Up" : (liftState == -1) ? "Down" : "Off");
         telemetry.addData("Spinner", (spinnerPos > .3) ? "In" : (collectState == -1) ? "Out" : "Off");
         telemetry.addData("LeftStick", gamepad1.left_stick_y);
@@ -133,11 +145,29 @@ public class AManualD extends LinearOpMode {
     }
 
     private void collect() {
-        if (gamepad2.right_bumper && spinnerPos < 1.0)
-            spinnerPos += .005;
-        if (gamepad2.left_bumper && spinnerPos > 1.0)
-            spinnerPos -= .005;
-        robot.spinner.setPosition(spinnerPos);
+
+        if(gamepad1.x)
+            rpm = 20;
+        if(gamepad1.y)
+            rpm = 2550;
+        if(gamepad1.b)
+            rpm = 2600;
+        if(gamepad1.a)
+            rpm = 2650;
+        if(gamepad1.right_trigger > .1)
+            rpm--;
+        else if(gamepad1.left_trigger > .1)
+            rpm++;
+
+        spinCount--;
+        if (spinTog)
+            robot.spinner.setPosition(-1.0);
+        else
+            robot.spinner.setPosition(1.0);
+        if (gamepad2.b && spinCount<0){
+            spinCount=50;
+            spinTog=!spinTog;
+        }
     }
 
     private void lift() {
@@ -157,20 +187,19 @@ public class AManualD extends LinearOpMode {
     }
 
     private void shoot() {
-        robot.cannonMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //robot.cannonMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //robot.cannonMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        while (shootCount != 0)
             shootCount--;
 
-        if (gamepad2.x && shootCount == 0) {
-            shootCount = 40;
+        if (gamepad2.x && shootCount < 0) {
+            shootCount = 80;
             shootTog = !shootTog;
         }
 
         if (shootTog) {
-            robot.cannonMotor.setTargetPosition(1000);
-            robot.cannonMotor.setMaxSpeed(1440 * (rpm / 60));
+            robot.cannonMotor.setMaxSpeed(rpm);
+            robot.cannonMotor.setPower(.4);
         } else
-            robot.cannonMotor.setTargetPosition(robot.cannonMotor.getCurrentPosition());
+            robot.cannonMotor.setPower(0);
     }
 }
