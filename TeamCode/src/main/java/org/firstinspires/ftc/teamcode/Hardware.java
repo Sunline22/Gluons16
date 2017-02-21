@@ -1,11 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsAnalogOpticalDistanceSensor;
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -17,23 +14,24 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 public class Hardware {
-    public DcMotor frontLeftMotor = null;
-    public DcMotor frontRightMotor = null;
-    public DcMotor backLeftMotor = null;
-    public DcMotor backRightMotor = null;
-    public DcMotor cannonMotor = null;
-    public DcMotor lift = null;
+    DcMotor frontLeftMotor = null;
+    DcMotor frontRightMotor = null;
+    DcMotor backLeftMotor = null;
+    DcMotor backRightMotor = null;
+    DcMotor cannonMotor = null;
+    DcMotor lift = null;
 
-    public Servo spinner = null;
-    public ColorSensor beaconSensor = null;
+    Servo spinner = null;
+    ColorSensor beaconSensor = null;
+    ModernRoboticsI2cGyro gyro = null;
 
-    public VuforiaLocalizer vuforia = null;
+    VuforiaLocalizer vuforia = null;
     VuforiaTrackables beacons = null;
 
     HardwareMap hwMap = null;
     private ElapsedTime period = new ElapsedTime();
-    public static final int tickSpeed = 1120, distanceFromCentermm = 203;
-    public static final double wheelCircumferencemm = 159.5929;
+    static final int tickSpeed = 1120, distanceFromCentermm = 203;
+    static final double wheelCircumferencemm = 159.5929;
 
 
 
@@ -41,15 +39,19 @@ public class Hardware {
     public Hardware() {
     }
 
-    public void init(HardwareMap ahwMap) {
+    public void init(HardwareMap ahwMap) throws InterruptedException{
         hwMap = ahwMap;
 
         InitComponents();
         InitVuforia();
+
+        while (gyro.isCalibrating())  {
+            Thread.sleep(50);
+        }
     }
 
 
-    public void InitVuforia() {
+    private void InitVuforia() {
         VuforiaLocalizer.Parameters params = new VuforiaLocalizer.Parameters(R.id.cameraMonitorViewId);
         params.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
         params.vuforiaLicenseKey = "AfmBbcz/////AAAAGbLGg++zzk4MiOrcPTc3t9xQj3QHfISJprebOgt5JJ4+83xtFO+ApGlI3GVY/aMgCpoGEIzaJse9sXiYDiLYpJQlGDX765tWJUrqM+pzqLxVXjWA1J6c968/YqYq74Vq5emNxGHj5SF3HP3m43Iq/YYgkSdMv4BR+RThPPnIIzrbAjEAHHtMgH7vVh036+bcw9UqBfSdD/IBqrKpJLERn5+Qi/4Q4EoReCC0CTDfZ+LcY0rUur0QZRkMpxx/9s4eCgIU+qfOcSlBvjoX7QAQ2MImUME1y5yJiyaWueamnhRBOwERGBuDKyGp4eBWp4i3esJcplrWYovjzPg9fL7Thy8v9KnrHy22PUFAYY+1vjKp";
@@ -83,10 +85,13 @@ public class Hardware {
         cannonMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
     }
 
-    private void InitSensors() {
+    private void InitSensors(){
         beaconSensor = hwMap.colorSensor.get("beacon");
         beaconSensor.enableLed(false);
 
+        gyro = (ModernRoboticsI2cGyro)hwMap.gyroSensor.get("gyro");
+
+        gyro.calibrate();
     }
 
     private void InitServos() {

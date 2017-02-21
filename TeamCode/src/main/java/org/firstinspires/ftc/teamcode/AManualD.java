@@ -13,10 +13,11 @@ import com.qualcomm.robotcore.util.Range;
 
 public class AManualD extends LinearOpMode {
     Hardware robot = new Hardware();
-    private int collectState = 0, liftState = 0, shootCount = 0, rpm=2550, spinCount=0, encSpeed = 0;
-    private boolean shootTog = false, spinTog = false;
+    private int collectState = 0, liftState = 0, shootCount = 0, rpm = 2550, encSpeed = 0;
+    private boolean shootTog = false, spinState = false, spinTog = false;
     private double spinnerPos;
     private ElapsedTime encodercalc = new ElapsedTime();
+
     public void runOpMode() throws InterruptedException {
 
         robot.init(hardwareMap);
@@ -39,22 +40,10 @@ public class AManualD extends LinearOpMode {
         robot.waitForTick(40);
     }
 
-    private void calcSpeed(){
-        int val1 = 0, val2 = 0;
-        if(encodercalc.seconds() < .05)
-            val1=(int)robot.spinner.getPosition();
-        else if(encodercalc.seconds() > .95) {
-            val2 = (int) robot.spinner.getPosition();
-            encSpeed = val2 - val1;
-            encodercalc.reset();
-        }
-    }
-
     private void telem() {
-        calcSpeed();
         telemetry.clear();
         telemetry.addData("WidowMaker", ((shootTog) ? "On" : "Off") + " rpm: " + rpm);
-        telemetry.addData("Encoder @ speed?", ((encSpeed > rpm-25 && encSpeed < rpm+25) ? "Yes" : "No"));
+        telemetry.addData("Encoder @ speed?", ((encSpeed > rpm - 25 && encSpeed < rpm + 25) ? "Yes" : "No"));
         telemetry.addData("Encoder @ speed? value", encSpeed);
         telemetry.addData("Lift", (liftState == 1) ? "Up" : (liftState == -1) ? "Down" : "Off");
         telemetry.addData("Spinner", (spinnerPos > .3) ? "In" : (collectState == -1) ? "Out" : "Off");
@@ -146,28 +135,29 @@ public class AManualD extends LinearOpMode {
 
     private void collect() {
 
-        if(gamepad1.x)
+        if (gamepad1.x)
             rpm = 20;
-        if(gamepad1.y)
+        if (gamepad1.y)
             rpm = 2550;
-        if(gamepad1.b)
+        if (gamepad1.b)
             rpm = 2600;
-        if(gamepad1.a)
+        if (gamepad1.a)
             rpm = 2650;
-        if(gamepad1.right_trigger > .1)
+        if (gamepad1.right_trigger > .1)
             rpm--;
-        else if(gamepad1.left_trigger > .1)
+        else if (gamepad1.left_trigger > .1)
             rpm++;
 
-        spinCount--;
-        if (spinTog)
-            robot.spinner.setPosition(-1.0);
-        else
+        if (spinTog && gamepad2.b) {
+            spinState = !spinState;
+            spinTog = false;
+        } else if (!gamepad2.b)
+            spinTog = true;
+
+        if (spinState)
             robot.spinner.setPosition(1.0);
-        if (gamepad2.b && spinCount<0){
-            spinCount=50;
-            spinTog=!spinTog;
-        }
+        else
+            robot.spinner.setPosition(0);
     }
 
     private void lift() {
@@ -189,7 +179,7 @@ public class AManualD extends LinearOpMode {
     private void shoot() {
         //robot.cannonMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //robot.cannonMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            shootCount--;
+        shootCount--;
 
         if (gamepad2.x && shootCount < 0) {
             shootCount = 80;
