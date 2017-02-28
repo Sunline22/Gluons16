@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -10,6 +11,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public abstract class AutoBlock extends LinearOpMode {
 
     Hardware robot = new Hardware();
+    final double TicktoInchConst =  (2/3)(1440/wheelCircumference);
 
     /**
      * This method is intended to drive the robot at a power level indefinitely
@@ -40,7 +42,8 @@ public abstract class AutoBlock extends LinearOpMode {
      * @param toPos sets how long the encoder should run to in Inches
      */
     public void driveInches(double toPos) {
-
+        double radius=2;
+        setDrivePos(9);
     }
 
     /**
@@ -109,7 +112,7 @@ public abstract class AutoBlock extends LinearOpMode {
      */
     public void turn(int degree) throws InterruptedException{
         //CounterClockwise is +
-        int currentHeading = robot.gyro.getIntegratedZValue(), targetHeading  = currentHeading + degree;
+       /* int currentHeading = robot.gyro.getIntegratedZValue(), targetHeading  = currentHeading + degree;
         if(opModeIsActive() && currentHeading < targetHeading)
             while (currentHeading < targetHeading) {
                 turn(false);
@@ -121,6 +124,7 @@ public abstract class AutoBlock extends LinearOpMode {
             idle();
         }
         setDrive(0);
+        */
     }
 
     /**
@@ -131,7 +135,7 @@ public abstract class AutoBlock extends LinearOpMode {
      */
     public void turn(int degree, double pow) throws InterruptedException{
         //CounterClockwise is +
-        int currentHeading = robot.gyro.getIntegratedZValue(), targetHeading  = currentHeading + degree;
+        /*int currentHeading = robot.gyro.getIntegratedZValue(), targetHeading  = currentHeading + degree;
         if(opModeIsActive() && currentHeading < targetHeading)
             while (currentHeading < targetHeading) {
                 turn(pow, false);
@@ -142,13 +146,12 @@ public abstract class AutoBlock extends LinearOpMode {
                 turn(pow, true);
             idle();
         }
-        setDrive(0);
+        setDrive(0);*/
     }
 
     /**
      * This method is intended to assist in loops. It will continue to return the same boolean value.
      *
-     * @param isBlue true if our alliance is blue
      * @return true if the beacon is the set alliances color
      */
     public boolean isBlue() {
@@ -211,4 +214,26 @@ public abstract class AutoBlock extends LinearOpMode {
         robot.frontRightMotor.setPower(pow);
         robot.backRightMotor.setPower(pow);
     }
+
+    private void setDrivePos(int pos){
+        setDriveRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.backRightMotor.setTargetPosition(robot.backRightMotor.getCurrentPosition()+pos);
+        robot.backLeftMotor.setTargetPosition(robot.backLeftMotor.getCurrentPosition()+pos);
+        robot.frontLeftMotor.setTargetPosition(robot.frontLeftMotor.getCurrentPosition()+pos);
+        robot.frontRightMotor.setTargetPosition(robot.frontRightMotor.getCurrentPosition()+pos);
+    }
+
+    private void setDriveRunMode(DcMotor.RunMode runMode) {
+        robot.backRightMotor.setMode(runMode);
+        robot.backLeftMotor.setMode(runMode);
+        robot.frontLeftMotor.setMode(runMode);
+        robot.frontRightMotor.setMode(runMode);
+    }
+    /*
+        robot.backRightMotor
+        robot.backLeftMotor
+        robot.frontLeftMotor
+        robot.frontRightMotor
+    */
+
 }

@@ -16,7 +16,6 @@ public class AManualD extends LinearOpMode {
     private int collectState = 0, liftState = 0, shootCount = 0, rpm = 2550, encSpeed = 0;
     private boolean shootTog = false, spinState = false, spinTog = false;
     private double spinnerPos;
-    private ElapsedTime encodercalc = new ElapsedTime();
 
     public void runOpMode() throws InterruptedException {
 
@@ -43,8 +42,6 @@ public class AManualD extends LinearOpMode {
     private void telem() {
         telemetry.clear();
         telemetry.addData("WidowMaker", ((shootTog) ? "On" : "Off") + " rpm: " + rpm);
-        telemetry.addData("Encoder @ speed?", ((encSpeed > rpm - 25 && encSpeed < rpm + 25) ? "Yes" : "No"));
-        telemetry.addData("Encoder @ speed? value", encSpeed);
         telemetry.addData("Lift", (liftState == 1) ? "Up" : (liftState == -1) ? "Down" : "Off");
         telemetry.addData("Spinner", (spinnerPos > .3) ? "In" : (collectState == -1) ? "Out" : "Off");
         telemetry.addData("LeftStick", gamepad1.left_stick_y);
@@ -136,7 +133,7 @@ public class AManualD extends LinearOpMode {
     private void collect() {
 
         if (gamepad1.x)
-            rpm = 20;
+            rpm = 3500;
         if (gamepad1.y)
             rpm = 2550;
         if (gamepad1.b)

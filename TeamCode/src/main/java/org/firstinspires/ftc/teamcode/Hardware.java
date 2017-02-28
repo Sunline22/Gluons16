@@ -23,7 +23,7 @@ public class Hardware {
 
     Servo spinner = null;
     ColorSensor beaconSensor = null;
-    ModernRoboticsI2cGyro gyro = null;
+    //ModernRoboticsI2cGyro gyro = null;
 
     VuforiaLocalizer vuforia = null;
     VuforiaTrackables beacons = null;
@@ -45,9 +45,9 @@ public class Hardware {
         InitComponents();
         InitVuforia();
 
-        while (gyro.isCalibrating())  {
-            Thread.sleep(50);
-        }
+        //while (gyro.isCalibrating())  {
+        //Thread.sleep(50);
+        //}
     }
 
 
@@ -68,7 +68,7 @@ public class Hardware {
         beacons.get(3).setName("Gears");
     }
 
-  private void InitComponents() {
+    private void InitComponents() {
 
         GetMotors();
 
@@ -88,10 +88,11 @@ public class Hardware {
     private void InitSensors(){
         beaconSensor = hwMap.colorSensor.get("beacon");
         beaconSensor.enableLed(false);
-
+        /*
         gyro = (ModernRoboticsI2cGyro)hwMap.gyroSensor.get("gyro");
 
         gyro.calibrate();
+        */
     }
 
     private void InitServos() {
