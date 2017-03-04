@@ -22,7 +22,7 @@ public class MainAutonomous extends AutoBlock{
 
         turnDeg(90, .75, .375);
         push();
-        while(isBlue() == true){
+        while(isBlue()){
             push();
             idle();
         }
