@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -11,7 +12,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public abstract class AutoBlock extends LinearOpMode {
 
     Hardware robot = new Hardware();
-    final double TicktoInchConst =  (2/3)(1440/wheelCircumference);
+    final double TicktoInchConst = (2 / 3) * (1440 / (3 * Math.PI));
 
     /**
      * This method is intended to drive the robot at a power level indefinitely
@@ -29,10 +30,10 @@ public abstract class AutoBlock extends LinearOpMode {
      * @param pow  sets the desired power of all drive motors
      * @param time
      */
-    public void drive(double pow, int time) throws InterruptedException{
+    public void drive(double pow, int time) throws InterruptedException {
         ElapsedTime runTime = new ElapsedTime();
         setDrive(pow);
-        while(opModeIsActive() && runTime.seconds() < time)
+        while (opModeIsActive() && runTime.seconds() < time)
             idle();
     }
 
@@ -42,8 +43,7 @@ public abstract class AutoBlock extends LinearOpMode {
      * @param toPos sets how long the encoder should run to in Inches
      */
     public void driveInches(double toPos) {
-        double radius=2;
-        setDrivePos(9);
+        setDrivePos((int) (TicktoInchConst * toPos));
     }
 
     /**
@@ -110,21 +110,20 @@ public abstract class AutoBlock extends LinearOpMode {
      *
      * @param degree sets how many degrees the robot will turn
      */
-    public void turn(int degree) throws InterruptedException{
+    public void turnDeg(int degree) throws InterruptedException {
         //CounterClockwise is +
-       /* int currentHeading = robot.gyro.getIntegratedZValue(), targetHeading  = currentHeading + degree;
-        if(opModeIsActive() && currentHeading < targetHeading)
+        int currentHeading = robot.gyro.getIntegratedZValue(), targetHeading = currentHeading + degree;
+        if (opModeIsActive() && currentHeading < targetHeading)
             while (currentHeading < targetHeading) {
                 turn(false);
                 idle();
             }
-        else if (currentHeading > targetHeading){
+        else if (currentHeading > targetHeading) {
             while (currentHeading > targetHeading)
-            turn(true);
+                turn(true);
             idle();
         }
         setDrive(0);
-        */
     }
 
     /**
@@ -133,20 +132,38 @@ public abstract class AutoBlock extends LinearOpMode {
      * @param degree sets how many degrees the robot will turn
      * @param pow    sets maxSpeed of turn in EncoderTicks per second
      */
-    public void turn(int degree, double pow) throws InterruptedException{
+    public void turnDeg(int degree, double pow) throws InterruptedException {
         //CounterClockwise is +
-        /*int currentHeading = robot.gyro.getIntegratedZValue(), targetHeading  = currentHeading + degree;
-        if(opModeIsActive() && currentHeading < targetHeading)
+        int currentHeading = robot.gyro.getIntegratedZValue(), targetHeading = currentHeading + degree;
+        if (opModeIsActive() && currentHeading < targetHeading)
             while (currentHeading < targetHeading) {
                 turn(pow, false);
                 idle();
             }
-        else if (currentHeading > targetHeading){
+        else if (currentHeading > targetHeading) {
             while (currentHeading > targetHeading)
                 turn(pow, true);
             idle();
         }
-        setDrive(0);*/
+        setDrive(0);
+    }
+
+    public void turnDeg(int degree, double powL, double powR) throws InterruptedException {
+        //CounterClockwise is +
+        int currentHeading = robot.gyro.getIntegratedZValue();
+        int targetHeading = currentHeading + degree;
+        if (opModeIsActive() && currentHeading < targetHeading)
+            while (currentHeading < targetHeading) {
+                turn(powL, powR);
+                idle();
+            }
+        else if (opModeIsActive() && currentHeading > targetHeading) {
+            while (currentHeading > targetHeading) {
+                turn(powL, powR);
+                idle();
+            }
+        }
+        setDrive(0);
     }
 
     /**
@@ -155,7 +172,7 @@ public abstract class AutoBlock extends LinearOpMode {
      * @return true if the beacon is the set alliances color
      */
     public boolean isBlue() {
-        if(robot.beaconSensor.blue() > 1)
+        if (robot.beaconSensor.blue() > robot.beaconSensor.red())
             return true;
         return false;
     }
@@ -199,6 +216,7 @@ public abstract class AutoBlock extends LinearOpMode {
 
     /**
      * private method sets the left  drive motor's power to pow
+     *
      * @param pow sets motor power
      */
     private void setDriveLeft(double pow) {
@@ -208,6 +226,7 @@ public abstract class AutoBlock extends LinearOpMode {
 
     /**
      * private method sets the right drive motor's power to pow
+     *
      * @param pow sets motor power
      */
     private void setDriveRight(double pow) {
@@ -215,12 +234,12 @@ public abstract class AutoBlock extends LinearOpMode {
         robot.backRightMotor.setPower(pow);
     }
 
-    private void setDrivePos(int pos){
+    private void setDrivePos(int pos) {
         setDriveRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.backRightMotor.setTargetPosition(robot.backRightMotor.getCurrentPosition()+pos);
-        robot.backLeftMotor.setTargetPosition(robot.backLeftMotor.getCurrentPosition()+pos);
-        robot.frontLeftMotor.setTargetPosition(robot.frontLeftMotor.getCurrentPosition()+pos);
-        robot.frontRightMotor.setTargetPosition(robot.frontRightMotor.getCurrentPosition()+pos);
+        robot.backRightMotor.setTargetPosition(robot.backRightMotor.getCurrentPosition() + pos);
+        robot.backLeftMotor.setTargetPosition(robot.backLeftMotor.getCurrentPosition() + pos);
+        robot.frontLeftMotor.setTargetPosition(robot.frontLeftMotor.getCurrentPosition() + pos);
+        robot.frontRightMotor.setTargetPosition(robot.frontRightMotor.getCurrentPosition() + pos);
     }
 
     private void setDriveRunMode(DcMotor.RunMode runMode) {
@@ -229,11 +248,5 @@ public abstract class AutoBlock extends LinearOpMode {
         robot.frontLeftMotor.setMode(runMode);
         robot.frontRightMotor.setMode(runMode);
     }
-    /*
-        robot.backRightMotor
-        robot.backLeftMotor
-        robot.frontLeftMotor
-        robot.frontRightMotor
-    */
 
 }

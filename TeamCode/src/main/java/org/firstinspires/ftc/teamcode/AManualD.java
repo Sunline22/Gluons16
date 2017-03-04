@@ -9,8 +9,6 @@ import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name = "Linear Driver TeleOp", group = "TeleOp")
 
-//test the booty
-
 public class AManualD extends LinearOpMode {
     Hardware robot = new Hardware();
     private int collectState = 0, liftState = 0, shootCount = 0, rpm = 2550, encSpeed = 0;
@@ -20,6 +18,7 @@ public class AManualD extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         robot.init(hardwareMap);
+
         robot.cannonMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         telemetry.addData("Say", "Good morning");
         telemetry.update();
@@ -133,17 +132,18 @@ public class AManualD extends LinearOpMode {
     private void collect() {
 
         if (gamepad1.x)
-            rpm = 3500;
+            rpm = 3000;
         if (gamepad1.y)
-            rpm = 2550;
-        if (gamepad1.b)
-            rpm = 2600;
-        if (gamepad1.a)
             rpm = 2650;
+        if (gamepad1.b)
+            rpm = 2550;
+        if (gamepad1.a)
+            rpm = 2000;
+
         if (gamepad1.right_trigger > .1)
-            rpm--;
+            rpm-=10;
         else if (gamepad1.left_trigger > .1)
-            rpm++;
+            rpm+=10;
 
         if (spinTog && gamepad2.b) {
             spinState = !spinState;
@@ -166,9 +166,9 @@ public class AManualD extends LinearOpMode {
             liftState = -1;
 
         if (liftState == 1)
-            robot.lift.setPower(.75);
+            robot.lift.setPower(1.0);
         else if (liftState == -1)
-            robot.lift.setPower(-.75);
+            robot.lift.setPower(-1.0);
         else
             robot.lift.setPower(0);
     }
@@ -184,8 +184,8 @@ public class AManualD extends LinearOpMode {
         }
 
         if (shootTog) {
-            robot.cannonMotor.setMaxSpeed(rpm);
-            robot.cannonMotor.setPower(.4);
+            robot.cannonMotor.setMaxSpeed(rpm); //rpm = encoder ticks/second
+            robot.cannonMotor.setPower(.35);
         } else
             robot.cannonMotor.setPower(0);
     }

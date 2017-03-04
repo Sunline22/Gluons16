@@ -13,7 +13,7 @@ import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
-public class Hardware {
+public class Hardware{
     DcMotor frontLeftMotor = null;
     DcMotor frontRightMotor = null;
     DcMotor backLeftMotor = null;
@@ -23,7 +23,7 @@ public class Hardware {
 
     Servo spinner = null;
     ColorSensor beaconSensor = null;
-    //ModernRoboticsI2cGyro gyro = null;
+    ModernRoboticsI2cGyro gyro = null;
 
     VuforiaLocalizer vuforia = null;
     VuforiaTrackables beacons = null;
@@ -44,10 +44,6 @@ public class Hardware {
 
         InitComponents();
         InitVuforia();
-
-        //while (gyro.isCalibrating())  {
-        //Thread.sleep(50);
-        //}
     }
 
 
@@ -88,11 +84,11 @@ public class Hardware {
     private void InitSensors(){
         beaconSensor = hwMap.colorSensor.get("beacon");
         beaconSensor.enableLed(false);
-        /*
+
         gyro = (ModernRoboticsI2cGyro)hwMap.gyroSensor.get("gyro");
 
         gyro.calibrate();
-        */
+
     }
 
     private void InitServos() {

@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 /**
  * Created by Sam on 18-Feb-17.
  */
-@Autonomous(name="NewTemplate",group = "Hidden")
-public class AutoTemplate extends AutoBlock{
+@Autonomous(name="Main Autonomous",group = "Autonomous")
+public class MainAutonomous extends AutoBlock{
     public void runOpMode() throws InterruptedException {
         robot.init(hardwareMap);
         telemetry.addData("Say", "Waiting for start");
@@ -20,5 +20,11 @@ public class AutoTemplate extends AutoBlock{
          * Put code here ↓
          */
 
+        turnDeg(90, .75, .375);
+        push();
+        while(isBlue() == true){
+            push();
+            idle();
+        }
     }
 }

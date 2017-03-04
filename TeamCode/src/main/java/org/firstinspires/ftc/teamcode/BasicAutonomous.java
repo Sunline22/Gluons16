@@ -48,14 +48,14 @@ public class BasicAutonomous extends LinearOpMode
         robot.cannonMotor.setMaxSpeed(rpm);
         robot.cannonMotor.setPower(.4);
 
-        while (opModeIsActive() && (runTime.seconds() < 14.0)) {
+        while (opModeIsActive() && (runTime.seconds() < 5.0)) {
             telemetry.addData("RunTime: ", runTime);
             telemetry.addData("RunGoal: ", 10.0);
             telemetry.update();
 
-            if(runTime.seconds()>5.9 && runTime.seconds()<6.0)
+            if(runTime.seconds()>2 && runTime.seconds()<2.5)
                 robot.lift.setPower(.5);
-            else if((runTime.seconds()>11.8 && runTime.seconds()<14.0))
+            else if((runTime.seconds()>4 && runTime.seconds()<5))
                 robot.lift.setPower(.5);
             else
                 robot.lift.setPower(0);
