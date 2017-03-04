@@ -172,9 +172,10 @@ public abstract class AutoBlock extends LinearOpMode {
      * @return true if the beacon is the set alliances color
      */
     public boolean isBlue() {
-        if (robot.beaconSensor.blue() > robot.beaconSensor.red())
+        /*if (robot.beaconSensor.blue() > robot.beaconSensor.red())
             return true;
-        return false;
+        return false;*/
+        return robot.beaconSensor.blue() > robot.beaconSensor.red();
     }
 
     /**
@@ -198,10 +199,11 @@ public abstract class AutoBlock extends LinearOpMode {
      */
     public void toggleCannon(boolean state, int ticksPerSec) {
         robot.cannonMotor.setPower(.4);
-        if (state) {
+        /*if (state) {
             robot.cannonMotor.setMaxSpeed(ticksPerSec);
         } else
-            robot.cannonMotor.setMaxSpeed(0);
+            robot.cannonMotor.setMaxSpeed(0);*/
+        robot.cannonMotor.setMaxSpeed(state? ticksPerSec : 0);
     }
 
     /**
